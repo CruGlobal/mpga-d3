@@ -1,5 +1,38 @@
 'use strict';
 
+angular.module('mpga', ['mpgaFilters', 'mpgaServices']).
+  config(['$routeProvider', function ($routeProvider) {
+  $routeProvider.
+    when('/current-partners', { templateUrl:'partials/current-partners.html', controller: CurrentPartnersController}).
+    otherwise({redirectTo:'/current-partners'});
+}]);
+
+/* Controllers */
+function CurrentPartnersController(scope, Partners) {
+  scope.partners = currentPartners(Partners.query());
+
+}
+CurrentPartnersController.$inject = ['$scope', 'Partners'];
+
+/* Filters */
+angular.module('mpgaFilters', []).
+  filter('formatCurrency', function () {
+  return formatCurrency;
+}).
+filter('formatDate', function() {
+    return function(epochTime) {
+      var date = new Date(epochTime);
+      return date.getMonth() + '/' + date.getDay() + '/' + date.getFullYear();
+    }
+  });
+
+/* Services */
+angular.module('mpgaServices', ['ngResource']).
+  factory('Partners', function ($resource) {
+    return $resource('testData.json');
+  });
+
+/*
 var data;
 
 d3.json('testData.json', function (json) {
@@ -23,3 +56,4 @@ d3.json('testData.json', function (json) {
         return formatCurrency(d['12MonthTotalAmount']);
     });
 });
+*/

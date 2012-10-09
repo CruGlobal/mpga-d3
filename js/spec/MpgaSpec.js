@@ -21,12 +21,12 @@ describe('dataSplitter', function () {
   });
 });
 
-describe('newAndCurrentPartners', function() {
+describe('currentPartners', function() {
   var data = [
     { '12MonthTotalAmount' : 1200}
   ]
 
-  var transformed = newAndCurrentPartners(data);
+  var transformed = currentPartners(data);
 
   it('includes the average over 12 months', function() {
     expect(_.first(transformed)['avgOver12Months']).toBe(100);

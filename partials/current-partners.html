@@ -1,0 +1,28 @@
+<h2>Current Partners</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account Number</th>
+      <th>Account Name</th>
+      <th>12 Month Giving Total</th>
+      <th>12 Month Gift Count</th>
+      <th>12 Month Giving Average</th>
+      <th>First Gift Date</th>
+      <th>Last Gift Date</th>
+      <th>Lifetime Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-ng-repeat="partner in partners">
+      <td>{{partner.accountNumber}}</td>
+      <td>{{partner.accountName}}</td>
+      <td>{{partner['12MonthTotalAmount'] | formatCurrency}}</td>
+      <td>{{partner['12MonthTotalCount']}}</td>
+      <td>###</td>
+      <td>{{partner.firstTransactionDate | formatDate}}</td>
+      <td>{{partner.lastTransactionDate | formatDate}}</td>
+      <td>{{partner.totalTransactionAmount | formatCurrency}}</td>
+    </tr>
+  </tbody>
+</table>
