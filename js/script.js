@@ -14,7 +14,7 @@ angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
 function CurrentPartnersController(scope, Partners) {
   scope.partners = Partners.query();
 
-  scope.pieData = [
+  scope.partnersData = [
     { 'label':'top 50', 'value':16},
     { 'label':'bottom 50', 'value':107} ];
 }
@@ -59,15 +59,13 @@ angular.module('mpgaDirectives', []).
 
     return {
       restrict: 'A',
-      terminal: false,
-      localModel:'=piechart',
-      /*scope: {
-        aoeu: '='
-      },*/
+      scope: {
+        input: '='
+      },
       link: function(scope, element, attrs) {
         var vis = d3.select(element[0])
           .append("svg:svg")              //create the SVG element inside the <body>
-          .data([scope.pieData])                   //associate our data with the document
+          .data([scope.input])                   //associate our data with the document
           .attr("width", width)           //set the width and height of our visualization (these will be attributes of the <svg> tag
           .attr("height", height)
           .append("svg:g")                //make a group to hold our pie chart
@@ -97,7 +95,7 @@ angular.module('mpgaDirectives', []).
             return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
           })
           .attr("text-anchor", "middle")                          //center the text on it's origin
-          .text(function(d, i) { return scope.pieData[i].label; });        //get the label from our original data array
+          .text(function(d, i) { return scope.input[i].label; });        //get the label from our original data array
       }
     }
   });
