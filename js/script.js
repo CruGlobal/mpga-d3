@@ -4,6 +4,7 @@ angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
   config(['$routeProvider', function ($routeProvider) {
   $routeProvider.
     when('/current-partners', { templateUrl:'partials/current-partners.html', controller: CurrentPartnersController}).
+    when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: LostPartnersController}).
     otherwise({redirectTo:'/current-partners'});
 }]);
 
@@ -11,29 +12,23 @@ angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
 function CurrentPartnersController(scope, Partners) {
   scope.partners = currentPartners(Partners.query());
 
-
-
   scope.pieData = [
     { 'label':'top 50', 'value':16},
     { 'label':'bottom 50', 'value':107} ];
-
-
-
-
 }
 CurrentPartnersController.$inject = ['$scope', 'Partners'];
 
+function LostPartnersController(scope, Partners) {
+  scope.partners = Partners.query();
+
+  scope.lostPartners = dataSplitter(scope.partners).lostPartners;
+}
+LostPartnersController.$inject = ['$scope', 'Partners'];
+
 /* Filters */
 angular.module('mpgaFilters', []).
-  filter('formatCurrency', function () {
-  return formatCurrency;
-}).
-filter('formatDate', function() {
-    return function(timeSinceEpoch) {
-      var date = new Date(timeSinceEpoch);
-      return date.getMonth() + '/' + date.getDay() + '/' + date.getFullYear();
-    }
-  });
+  filter('formatCurrency', function () { return formatCurrency; }).
+  filter('formatDate', function() { return formatDate; });
 
 /* Services */
 angular.module('mpgaServices', ['ngResource']).

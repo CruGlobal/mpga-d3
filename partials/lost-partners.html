@@ -1,0 +1,23 @@
+<h2>Lost Partners</h2>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Account Number</th>
+    <th>Account Name</th>
+    <th>First Gift Date</th>
+    <th>Last Gift Date</th>
+    <th>Lifetime Total</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- TODO change this to use lostPartners, after we get some lost partner data -->
+  <tr data-ng-repeat="partner in partners">
+    <td>{{partner.accountNumber}}</td>
+    <td>{{partner.accountName}}</td>
+    <td>{{partner.firstTransactionDate | formatDate}}</td>
+    <td>{{partner.lastTransactionDate | formatDate}}</td>
+    <td>{{partner.totalTransactionAmount | formatCurrency}}</td>
+  </tr>
+  </tbody>
+</table>

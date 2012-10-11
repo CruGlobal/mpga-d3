@@ -229,7 +229,16 @@ td { vertical-align: top; }
    Author:
    ========================================================================== */
 
+table.table th {
+    color: rgb(212, 159, 6);
+}
 
+.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
+    background-color: rgb(242, 250, 255);
+}
+table.table tr.last_column td {
+    background-color: rgb(23, 135, 170); color: #FFF;
+}
 
 
 /* ==|== non-semantic helper classes ========================================

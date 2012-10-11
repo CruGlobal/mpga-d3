@@ -19,3 +19,8 @@ var currentPartners = function (notLostPartners) {
 var formatCurrency = function (number) {
   return '$' + d3.format(',.2f')(number);
 }
+
+var formatDate = function(timeSinceEpoch) {
+  var date = new Date(timeSinceEpoch);
+  return date.getMonth() + '/' + date.getDay() + '/' + date.getFullYear();
+}
