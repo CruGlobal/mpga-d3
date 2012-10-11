@@ -5,6 +5,8 @@ angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
   $routeProvider.
     when('/current-partners', { templateUrl:'partials/current-partners.html', controller: CurrentPartnersController}).
     when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: LostPartnersController}).
+//    when('/giving-range', { templateUrl:'partials/giving-range.html', controller: GivingRangeController}).
+//    when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: GivingFrequencyController}).
     otherwise({redirectTo:'/current-partners'});
 }]);
 
@@ -24,6 +26,17 @@ function LostPartnersController(scope, Partners) {
   scope.lostPartners = dataSplitter(scope.partners).lostPartners;
 }
 LostPartnersController.$inject = ['$scope', 'Partners'];
+
+function NavigationController(scope, location) {
+  scope.a = location.path().substring(1);
+
+
+  scope.navClass = function (page) {
+    var currentRoute = location.path().substring(1) || 'current-partners';
+    return (page === currentRoute) ? 'active' : '';
+  }
+}
+NavigationController.$inject = ['$scope', '$location'];
 
 /* Filters */
 angular.module('mpgaFilters', []).

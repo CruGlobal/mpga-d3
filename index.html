@@ -36,6 +36,16 @@
        chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
+  <div class="navbar" data-ng-controller="NavigationController">
+    <div class="navbar-inner">
+      <a class="brand" href="#/">Ministry Partner Giving Analysis</a>
+      <ul class="nav">
+        <li data-ng-class="navClass('current-partners')"><a href="#/current-partners">Current Partners</a></li>
+        <li data-ng-class="navClass('lost-partners')"><a href="#/lost-partners">Lost Partners</a></li>
+      </ul>
+    </div>
+  </div>
+
   <div data-ng-view></div>
 
 
