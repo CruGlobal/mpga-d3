@@ -37,13 +37,11 @@ NavigationController.$inject = ['$scope', '$location'];
 
 /* Filters */
 angular.module('mpgaFilters', []).
-  filter('formatCurrency', function () { return formatCurrency; }).
   filter('averageOver12Months', function () {
     return function(partner) {
       return partner['12MonthTotalAmount'] / 12;
     };
-  }).
-  filter('formatDate', function() { return formatDate; });
+  });
 
 /* Services */
 angular.module('mpgaServices', ['ngResource']).
