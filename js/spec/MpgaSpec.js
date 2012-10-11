@@ -21,18 +21,6 @@ describe('dataSplitter', function () {
   });
 });
 
-describe('currentPartners', function() {
-  var data = [
-    { '12MonthTotalAmount' : 1200}
-  ]
-
-  var transformed = currentPartners(data);
-
-  it('includes the average over 12 months', function() {
-    expect(_.first(transformed)['avgOver12Months']).toBe(100);
-  });
-});
-
 describe('formatCurrency', function() {
   it('trims to 2 decimal places, adds thousands separator and prepends $', function () {
     expect(formatCurrency(1234.5678)).toBe('$1,234.57');

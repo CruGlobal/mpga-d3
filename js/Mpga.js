@@ -9,13 +9,6 @@ var dataSplitter = function (data) {
   }
 };
 
-var currentPartners = function (notLostPartners) {
-  _.each(notLostPartners, function(d) {
-    d.avgOver12Months = d['12MonthTotalAmount'] / 12;
-  });
-  return notLostPartners;
-}
-
 var formatCurrency = function (number) {
   return '$' + d3.format(',.2f')(number);
 }
