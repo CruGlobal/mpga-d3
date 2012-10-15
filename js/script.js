@@ -21,9 +21,11 @@ function CurrentPartnersController(scope, Partners) {
 CurrentPartnersController.$inject = ['$scope', 'Partners'];
 
 function LostPartnersController(scope, Partners) {
-  scope.partners = Partners.query();
-
-  scope.lostPartners = dataSplitter(scope.partners).lostPartners;
+  var partners = Partners.query(function() {
+    scope.lostPartners = _.filter(partners, function(partnerRow) {
+      return partnerRow['12MonthTotalCount'] == 0;
+    });
+  });
 }
 LostPartnersController.$inject = ['$scope', 'Partners'];
 

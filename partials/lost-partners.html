@@ -9,13 +9,12 @@
   </tr>
   </thead>
   <tbody>
-  <!-- TODO change this to use lostPartners, after we get some lost partner data -->
-  <tr data-ng-repeat="partner in partners">
+  <tr data-ng-repeat="partner in lostPartners">
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
-    <td>{{partner.firstTransactionDate | formatDate}}</td>
-    <td>{{partner.lastTransactionDate | formatDate}}</td>
-    <td>{{partner.totalTransactionAmount | formatCurrency}}</td>
+    <td>{{partner.firstTransactionDate | date:'M/d/yyyy'}}</td>
+    <td>{{partner.lastTransactionDate | date:'M/d/yyyy'}}</td>
+    <td>{{partner.totalTransactionAmount | currency}}</td>
   </tr>
   </tbody>
 </table>

@@ -6,7 +6,7 @@ var dataSplitter = function (data) {
     notLostPartners:_.filter(data, function (partnerRow) {
       return partnerRow['12MonthTotalCount'] != 0;
     })
-  }
+  };
 };
 
 var formatCurrency = function (number) {
