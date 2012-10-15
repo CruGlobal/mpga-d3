@@ -6,7 +6,7 @@ angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
     when('/current-partners', { templateUrl:'partials/current-partners.html', controller: CurrentPartnersController}).
     when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: LostPartnersController}).
     when('/giving-range', { templateUrl:'partials/giving-range.html', controller: GivingRangeController}).
-//    when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: GivingFrequencyController}).
+    when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: GivingFrequencyController}).
 //    when('/expenses', { templateUrl:'partials/expenses.html', controller: ExpensesController}).
     otherwise({redirectTo:'/current-partners'});
 }]);
@@ -54,12 +54,33 @@ function GivingRangeController(scope, Partners) {
       reduce( function(a, b){ return a + b; }).
       value();
   });
-
-  scope.rangeHighPass = function (partners, high) {
-
-  }
 }
 GivingRangeController.$inject = ['$scope', 'Partners'];
+
+function GivingFrequencyController(scope, Partners) {
+  scope.ranges = [
+    {label: '1 Gift', high:1, low:1},
+    {label: '2-4 Gifts', high:4, low:2},
+    {label: '5-6 Gifts', high:6, low:5},
+    {label: '7-10 Gifts', high:10, low:7},
+    {label: '11-12 Gifts', high:12, low:11},
+    {label: '13+ Gifts', high:1000000, low:13}
+  ];
+
+  var partners = Partners.query(function() {
+    scope.currentPartners = _.filter(partners, function(partnerRow) {
+      return partnerRow['12MonthTotalCount'] > 0;
+    });
+
+    scope.totalCount = _.size(scope.currentPartners);
+
+    scope.totalAmount = _.chain(scope.currentPartners).
+      pluck('12MonthTotalAmount').
+      reduce( function(a, b){ return a + b; }).
+      value();
+  });
+}
+GivingFrequencyController.$inject = ['$scope', 'Partners'];
 
 function NavigationController(scope, location) {
   scope.navClass = function (page) {
@@ -78,6 +99,28 @@ angular.module('mpgaFilters', []).
           pluck('12MonthTotalAmount').
           reduce( function(a, b){ return a + b; }, 0).
           value();
+      else
+        return 0;
+    };
+  }).
+  filter('monthlyAmount', function () {
+    return function(partners) {
+      if(_.isArray(partners))
+        return _.chain(partners).
+          pluck('12MonthTotalAmount').
+          reduce( function(a, b){ return a + b; }, 0).
+          value() / 12;
+      else
+        return 0;
+    };
+  }).
+  filter('monthlyAmountPerPartner', function () {
+    return function(partners) {
+      if(_.isArray(partners))
+        return _.chain(partners).
+          pluck('12MonthTotalAmount').
+          reduce( function(a, b){ return a + b; }, 0).
+          value() / 12 / _.size(partners);
       else
         return 0;
     };
@@ -111,7 +154,7 @@ angular.module('mpgaFilters', []).
   }).
   filter('rangeHighPass', function () {
     // Careful, this function is a high PASS.
-    // All partners with HIGHER than high * 12 yearly giving are allowed through
+    // All partners with HIGHER than range.low * 12 yearly giving are allowed through
     return function(partners, range) {
       return _.filter(partners, function(partner) {
         return partner['12MonthTotalAmount'] > range.low * 12;
@@ -123,6 +166,14 @@ angular.module('mpgaFilters', []).
       return _.filter(partners, function(partner) {
         return partner['12MonthTotalAmount'] < range.high * 12
           && partner['12MonthTotalAmount'] > range.low * 12;
+      });
+    };
+  }).
+  filter('frequencyBandPass', function () {
+    return function(partners, range) {
+      return _.filter(partners, function(partner) {
+        return partner['12MonthTotalCount'] <= range.high
+          && partner['12MonthTotalCount'] >= range.low;
       });
     };
   });

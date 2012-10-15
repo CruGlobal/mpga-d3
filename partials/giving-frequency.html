@@ -1,0 +1,26 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Number of Gifts per Year</th>
+
+    <th>Number of Partners at this Frequency</th>
+    <th>% of Partners at this Frequency</th>
+    <th>Total Dollar Amount at this Frequency for the Last 12 Months</th>
+    <th>Equivalent Monthly Amount at this Frequency</th>
+    <th>% Total Monthly Amount at this Frequency</th>
+    <th>Average Monthly Gift Amount per Partner at this Frequency</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr data-ng-repeat="range in ranges">
+    <td>{{range.label}}</td>
+
+    <td>{{currentPartners | frequencyBandPass:range | count}}</td>
+    <td>{{currentPartners | frequencyBandPass:range | countPercentage:totalCount | number:1}}%</td>
+    <td>{{currentPartners | frequencyBandPass:range | amount | currency}}</td>
+    <td>{{currentPartners | frequencyBandPass:range | monthlyAmount | currency}}</td>
+    <td>{{currentPartners | frequencyBandPass:range | amountPercentage:totalAmount | number:1}}%</td>
+    <td>{{currentPartners | frequencyBandPass:range | monthlyAmountPerPartner | currency}}</td>
+  </tr>
+  </tbody>
+</table>
