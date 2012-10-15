@@ -1,36 +1,34 @@
 'use strict';
 
-angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
+var mpga = angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
   config(['$routeProvider', function ($routeProvider) {
   $routeProvider.
-    when('/current-partners', { templateUrl:'partials/current-partners.html', controller: CurrentPartnersController}).
-    when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: LostPartnersController}).
-    when('/giving-range', { templateUrl:'partials/giving-range.html', controller: GivingRangeController}).
-    when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: GivingFrequencyController}).
-//    when('/expenses', { templateUrl:'partials/expenses.html', controller: ExpensesController}).
+    when('/current-partners', { templateUrl:'partials/current-partners.html', controller: 'CurrentPartnersController'}).
+    when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: 'LostPartnersController'}).
+    when('/giving-range', { templateUrl:'partials/giving-range.html', controller: 'GivingRangeController'}).
+    when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: 'GivingFrequencyController'}).
+//    when('/expenses', { templateUrl:'partials/expenses.html', controller: 'ExpensesController'}).
     otherwise({redirectTo:'/current-partners'});
 }]);
 
 /* Controllers */
-function CurrentPartnersController(scope, Partners) {
+mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(scope, Partners) {
   scope.partners = Partners.query();
 
   scope.partnersData = [
     { 'label':'top 50', 'value':16},
     { 'label':'bottom 50', 'value':107} ];
-}
-CurrentPartnersController.$inject = ['$scope', 'Partners'];
+}]);
 
-function LostPartnersController(scope, Partners) {
+mpga.controller('LostPartnersController', ['$scope', 'Partners', function(scope, Partners) {
   var partners = Partners.query(function() {
     scope.lostPartners = _.filter(partners, function(partnerRow) {
       return partnerRow['12MonthTotalCount'] == 0;
     });
   });
-}
-LostPartnersController.$inject = ['$scope', 'Partners'];
+}]);
 
-function GivingRangeController(scope, Partners) {
+mpga.controller('GivingRangeController', ['$scope', 'Partners', function(scope, Partners) {
   scope.ranges = [
     {high:10000000, low:200},
     {high:200, low:150},
@@ -54,10 +52,9 @@ function GivingRangeController(scope, Partners) {
       reduce( function(a, b){ return a + b; }).
       value();
   });
-}
-GivingRangeController.$inject = ['$scope', 'Partners'];
+}]);
 
-function GivingFrequencyController(scope, Partners) {
+mpga.controller('GivingFrequencyController', ['$scope', 'Partners', function(scope, Partners) {
   scope.ranges = [
     {label: '1 Gift', high:1, low:1},
     {label: '2-4 Gifts', high:4, low:2},
@@ -79,102 +76,91 @@ function GivingFrequencyController(scope, Partners) {
       reduce( function(a, b){ return a + b; }).
       value();
   });
-}
-GivingFrequencyController.$inject = ['$scope', 'Partners'];
+}]);
 
-function NavigationController(scope, location) {
+mpga.controller('NavigationController', ['$scope', '$location', function(scope, location) {
   scope.navClass = function (page) {
     var currentRoute = location.path().substring(1) || 'current-partners';
     return (page === currentRoute) ? 'active' : '';
   }
-}
-NavigationController.$inject = ['$scope', '$location'];
+}]);
 
 /* Filters */
 angular.module('mpgaFilters', []).
   filter('amount', function () {
     return function(partners) {
-      if(_.isArray(partners))
-        return _.chain(partners).
-          pluck('12MonthTotalAmount').
-          reduce( function(a, b){ return a + b; }, 0).
-          value();
-      else
-        return 0;
+      return _.chain(partners).
+        pluck('12MonthTotalAmount').
+        reduce( function(a, b){ return a + b; }, 0).
+        value();
     };
   }).
   filter('monthlyAmount', function () {
     return function(partners) {
-      if(_.isArray(partners))
-        return _.chain(partners).
-          pluck('12MonthTotalAmount').
-          reduce( function(a, b){ return a + b; }, 0).
-          value() / 12;
-      else
-        return 0;
+      return _.chain(partners).
+        pluck('12MonthTotalAmount').
+        reduce( function(a, b){ return a + b; }, 0).
+        value() / 12;
     };
   }).
   filter('monthlyAmountPerPartner', function () {
     return function(partners) {
-      if(_.isArray(partners))
-        return _.chain(partners).
-          pluck('12MonthTotalAmount').
-          reduce( function(a, b){ return a + b; }, 0).
-          value() / 12 / _.size(partners);
-      else
-        return 0;
+      return _.chain(partners).
+        pluck('12MonthTotalAmount').
+        reduce( function(a, b){ return a + b; }, 0).
+        value() / 12 / _.size(partners);
     };
   }).
   filter('count', function () {
     return function(arr) {
-      if(_.isArray(arr))
-        return _.size(arr);
-      else
-        return 0;
+      return _.size(arr);
     };
   }).
   filter('amountPercentage', function () {
     return function(partners, total) {
-      if(_.isArray(partners)) //to prevent errors on startup
-        return _.chain(partners).
-          pluck('12MonthTotalAmount').
-          reduce( function(a, b){ return a + b; }, 0).
-          value() / total * 100;
-      else
-        return 0;
+      return _.chain(partners).
+        pluck('12MonthTotalAmount').
+        reduce( function(a, b){ return a + b; }, 0).
+        value() / total * 100;
     };
   }).
   filter('countPercentage', function () {
     return function(partners, total) {
-      if(_.isArray(partners)) //to prevent errors on startup
-        return _.size(partners) / total * 100;
-      else
-        return 0;
+      return _.size(partners) / total * 100;
     };
   }).
   filter('rangeHighPass', function () {
     // Careful, this function is a high PASS.
     // All partners with HIGHER than range.low * 12 yearly giving are allowed through
     return function(partners, range) {
-      return _.filter(partners, function(partner) {
-        return partner['12MonthTotalAmount'] > range.low * 12;
-      });
+      if(_.isArray(partners))
+        return _.filter(partners, function(partner) {
+          return partner['12MonthTotalAmount'] > range.low * 12;
+        });
+      else
+        return [];
     };
   }).
   filter('rangeBandPass', function () {
     return function(partners, range) {
-      return _.filter(partners, function(partner) {
-        return partner['12MonthTotalAmount'] < range.high * 12
-          && partner['12MonthTotalAmount'] > range.low * 12;
-      });
+      if(_.isArray(partners))
+        return _.filter(partners, function(partner) {
+          return partner['12MonthTotalAmount'] < range.high * 12
+            && partner['12MonthTotalAmount'] > range.low * 12;
+        });
+      else
+        return [];
     };
   }).
   filter('frequencyBandPass', function () {
     return function(partners, range) {
-      return _.filter(partners, function(partner) {
-        return partner['12MonthTotalCount'] <= range.high
-          && partner['12MonthTotalCount'] >= range.low;
-      });
+      if(_.isArray(partners))
+        return _.filter(partners, function(partner) {
+          return partner['12MonthTotalCount'] <= range.high
+            && partner['12MonthTotalCount'] >= range.low;
+        });
+      else
+        return [];
     };
   });
 
