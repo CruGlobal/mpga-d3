@@ -4,17 +4,17 @@
       "transactionSummaries":[
          {
             "Description":"Staff Assessment",
-            "total":-710,
+            "total":710,
             "category":"contributions-assessment"
          },
          {
             "Description":"19148 unk stock donation",
-            "total":-1,
+            "total":1,
             "category":"other-assessment"
          },
          {
             "Description":"Adj: 977549/gxbmu% Jones",
-            "total":-3,
+            "total":3,
             "category":"other-assessment"
          }
       ]
@@ -24,42 +24,42 @@
       "transactionSummaries":[
          {
             "Description":"Child EOBs-Apply To Husb/widow",
-            "total":-10,
+            "total":10,
             "category":"reimbursement"
          },
          {
             "Description":"Ministry Auto Mileage",
-            "total":-120,
+            "total":120,
             "category":"reimbursement"
          },
          {
             "Description":"Charge(s) for Credit Card gift(s)",
-            "total":-4,
+            "total":4,
             "category":"credit-card-fee"
          },
          {
             "Description":"1% Gift to Minority Fund",
-            "total":-350,
+            "total":350,
             "category":"transfer"
          },
          {
             "Description":"Transfer to CSU Savings Fund",
-            "total":-200,
+            "total":200,
             "category":"transfer"
          },
          {
             "Description":"Staff Assessment",
-            "total":-420,
+            "total":420,
             "category":"contributions-assessment"
          },
          {
             "Description":"Staff Salary",
-            "total":-3962,
+            "total":3962,
             "category":"salary"
          },
          {
             "Description":"Staff Benefits",
-            "total":-1129,
+            "total":1129,
             "category":"benefits"
          }
       ]

@@ -79,6 +79,10 @@ mpga.controller('GivingFrequencyController', ['$scope', 'Partners', function(sco
 }]);
 
 mpga.controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(scope, Expenses, Income) {
+  scope.months = _.map(_.range(12), function(monthsToAdd) {
+    return moment().subtract('years', 1).add('months', monthsToAdd).format('YYYY-MM');
+  });
+
   var pullOutMatchingDescriptions = function(expenseItems, predicate) {
     return _.chain(expenseItems).
       map(function(monthDatum) {
@@ -93,6 +97,8 @@ mpga.controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(
   };
 
   var income = Income.query(function() {
+    scope.income = income;
+
     //income is all positive entries
     var incomePredicate = function(transactionSummary){
       return transactionSummary.total > 0;
@@ -134,6 +140,14 @@ mpga.controller('NavigationController', ['$scope', '$location', function(scope, 
 
 /* Filters */
 angular.module('mpgaFilters', []).
+  filter('divideByTwelve', function () {
+    return function(input) {
+      if(_.isNumber(input))
+        return input / 12;
+      else
+        return input;
+    };
+  }).
   filter('amount', function () {
     return function(partners) {
       return _.chain(partners).
@@ -208,6 +222,26 @@ angular.module('mpgaFilters', []).
         });
       else
         return [];
+    };
+  }).
+  filter('matchDescriptionAndSum', function () {
+    return function(monthData, description) {
+      // the filter before this one is passing an array of months, like the income/expense data
+      if(_.size(monthData) == 0)
+        return 0;
+      else
+        return _.chain(monthData).
+          map(function(monthDatum) {
+            return _.chain(monthDatum.transactionSummaries).
+              filter(function(transactionSummary) {
+                return transactionSummary.Description === description;
+              }).
+              pluck('total').
+              value();
+          }).
+          flatten().
+          reduce( function(a, b){ return a + b; }, 0).
+          value();
     };
   });
 
