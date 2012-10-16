@@ -7,7 +7,7 @@ var mpga = angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirective
     when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: 'LostPartnersController'}).
     when('/giving-range', { templateUrl:'partials/giving-range.html', controller: 'GivingRangeController'}).
     when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: 'GivingFrequencyController'}).
-//    when('/expenses', { templateUrl:'partials/expenses.html', controller: 'ExpensesController'}).
+    when('/expenses', { templateUrl:'partials/expenses.html', controller: 'ExpensesController'}).
     otherwise({redirectTo:'/current-partners'});
 }]);
 
@@ -75,6 +75,53 @@ mpga.controller('GivingFrequencyController', ['$scope', 'Partners', function(sco
       pluck('12MonthTotalAmount').
       reduce( function(a, b){ return a + b; }).
       value();
+  });
+}]);
+
+mpga.controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(scope, Expenses, Income) {
+  var pullOutMatchingDescriptions = function(expenseItems, predicate) {
+    return _.chain(expenseItems).
+      map(function(monthDatum) {
+        return _.chain(monthDatum.transactionSummaries).
+          filter(predicate).
+          pluck('Description').
+          value();
+      }).
+      flatten().
+      unique().
+      value();
+  };
+
+  var income = Income.query(function() {
+    //income is all positive entries
+    var incomePredicate = function(transactionSummary){
+      return transactionSummary.total > 0;
+    };
+    scope.incomeDescriptions = pullOutMatchingDescriptions(income, incomePredicate);
+  });
+
+  var expenses = Expenses.query(function() {
+    scope.expenses = expenses; // subject to change
+
+    //ministry is category === reimbursement
+    var ministryPredicate = function(transactionSummary){
+      return transactionSummary.category === 'reimbursement';
+    };
+    scope.ministryDescriptions = pullOutMatchingDescriptions(expenses, ministryPredicate);
+
+    //last table is category in (benefits, salary, contributions-assessment)
+    var beneSalCont = ['benefits', 'salary', 'contributions-assessment'];
+    var beneSalContPredicate = function(transactionSummary){
+      return _.contains(beneSalCont, transactionSummary.category);
+    };
+    scope.benefitsDescriptions = pullOutMatchingDescriptions(expenses, beneSalContPredicate);
+
+    //misc has everything else
+    var miscPredicate = function(transactionSummary) {
+      return !ministryPredicate(transactionSummary) &&
+        !beneSalContPredicate(transactionSummary);
+    };
+    scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
   });
 }]);
 
@@ -168,6 +215,12 @@ angular.module('mpgaFilters', []).
 angular.module('mpgaServices', ['ngResource']).
   factory('Partners', function ($resource) {
     return $resource('testData.json');
+  }).
+  factory('Expenses', function ($resource) {
+    return $resource('example-mpga-expense-data.json');
+  }).
+  factory('Income', function ($resource) {
+    return $resource('example-mpga-income-data.json');
   });
 
 /* Directives */
