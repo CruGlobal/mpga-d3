@@ -117,7 +117,7 @@ mpga.controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', f
   ];
 
   var partners = Partners.query(function() {
-    scope.currentPartners = _.filter(partners, scope.isLostPartner);
+    scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
     scope.totalCount = _.size(scope.currentPartners);
 
