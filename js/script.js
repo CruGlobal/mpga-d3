@@ -19,6 +19,17 @@ var mpga = angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirective
 
 /* Controllers */
 mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(scope, Partners) {
+  scope.sortOn = function(column) {
+    if(scope.sortingColumn === column) {
+      scope.reverse = !scope.reverse;
+    } else
+      scope.reverse = false;
+    scope.arrowDirection = (scope.reverse ? 'descending' : 'ascending'); //CSS class names
+    scope.sortingColumn = column;
+    scope.active = {};
+    scope.active[column] = 'sorting'; //CSS class name
+  };
+
   var partners = Partners.query(function () {
     scope.partners = _.reject(partners, scope.isLostPartner);
   });
@@ -30,6 +41,17 @@ mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(sco
 }]);
 
 mpga.controller('LostPartnersController', ['$scope', 'Partners', function(scope, Partners) {
+  scope.sortOn = function(column) {
+    if(scope.sortingColumn === column) {
+      scope.reverse = !scope.reverse;
+    } else
+      scope.reverse = false;
+    scope.arrowDirection = (scope.reverse ? 'descending' : 'ascending'); //CSS class names
+    scope.sortingColumn = column;
+    scope.active = {};
+    scope.active[column] = 'sorting'; //CSS class name
+  };
+  
   var partners = Partners.query(function() {
     scope.lostPartners = _.filter(partners, scope.isLostPartner);
   });

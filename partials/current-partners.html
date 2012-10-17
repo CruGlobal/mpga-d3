@@ -1,18 +1,18 @@
 <table class="table table-striped">
   <thead>
-  <tr>
+  <tr data-ng-class="arrowDirection">
     <th> Account Number</th>
-    <th data-ng-click="comparator = 'accountName'; reverse=!reverse">Account Name</th>
-    <th data-ng-click="comparator = 'twelveMonthTotalAmount'; reverse=!reverse">12 Month Giving Total</th>
-    <th data-ng-click="comparator = 'twelveMonthTotalCount'; reverse=!reverse">12 Month Gift Count</th>
-    <th data-ng-click="comparator = 'twelveMonthTotalAmount'; reverse=!reverse">12 Month Giving Average</th>
-    <th data-ng-click="comparator = 'firstTransactionDate'; reverse=!reverse">First Gift Date</th>
-    <th data-ng-click="comparator = 'lastTransactionDate'; reverse=!reverse">Last Gift Date</th>
-    <th data-ng-click="comparator = 'totalTransactionAmount'; reverse=!reverse">Lifetime Total</th>
+    <th data-ng-class="active.accountName" data-ng-click="sortOn('accountName')">Account Name</th>
+    <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')">12 Month Giving Total</th>
+    <th data-ng-class="active.twelveMonthTotalCount" data-ng-click="sortOn('twelveMonthTotalCount')">12 Month Gift Count</th>
+    <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')">12 Month Giving Average</th>
+    <th data-ng-class="active.firstTransactionDate" data-ng-click="sortOn('firstTransactionDate')">First Gift Date</th>
+    <th data-ng-class="active.lastTransactionDate" data-ng-click="sortOn('lastTransactionDate')">Last Gift Date</th>
+    <th data-ng-class="active.totalTransactionAmount" data-ng-click="sortOn('totalTransactionAmount')">Lifetime Total</th>
   </tr>
   </thead>
   <tbody>
-  <tr data-ng-repeat="partner in partners | orderBy:comparator:reverse">
+  <tr data-ng-repeat="partner in partners | orderBy:sortingColumn:reverse">
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
     <td>{{partner.twelveMonthTotalAmount | currency}}</td>

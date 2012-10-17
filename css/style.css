@@ -240,6 +240,18 @@ table.table tr.last_column td {
     background-color: rgb(23, 135, 170); color: #FFF;
 }
 
+thead th[data-ng-click] {
+    background: #87cefa; /*TODO Eli work your magic here.*/
+}
+
+thead tr.descending th[data-ng-click].sorting {
+    background: #db7093; /*TODO Eli work your magic here.*/
+}
+
+thead tr.ascending th[data-ng-click].sorting {
+    background: #90ee90; /*TODO Eli work your magic here.*/
+}
+
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
