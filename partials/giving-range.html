@@ -23,12 +23,12 @@
   <tr data-ng-repeat="range in ranges">
     <td>${{range.low}}+</td>
     
-    <td>{{currentPartners | rangeBandPass:range | count}}</td>
+    <td>{{currentPartners | rangeBandPass:range | size}}</td>
     <td>{{currentPartners | rangeBandPass:range | countPercentage:totalCount | number:1}}%</td>
     <td>{{currentPartners | rangeBandPass:range | amount | currency}}</td>
     <td>{{currentPartners | rangeBandPass:range | amountPercentage:totalAmount | number:1}}%</td>
 
-    <td>{{currentPartners | rangeHighPass:range | count}}</td>
+    <td>{{currentPartners | rangeHighPass:range | size}}</td>
     <td>{{currentPartners | rangeHighPass:range | countPercentage:totalCount | number:1}}%</td>
     <td>{{currentPartners | rangeHighPass:range | amount | currency}}</td>
     <td>{{currentPartners | rangeHighPass:range | amountPercentage:totalAmount | number:1}}%</td>

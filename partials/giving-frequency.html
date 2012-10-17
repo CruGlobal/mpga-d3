@@ -15,7 +15,7 @@
   <tr data-ng-repeat="range in ranges">
     <td>{{range.label}}</td>
 
-    <td>{{currentPartners | frequencyBandPass:range | count}}</td>
+    <td>{{currentPartners | frequencyBandPass:range | size}}</td>
     <td>{{currentPartners | frequencyBandPass:range | countPercentage:totalCount | number:1}}%</td>
     <td>{{currentPartners | frequencyBandPass:range | amount | currency}}</td>
     <td>{{currentPartners | frequencyBandPass:range | monthlyAmount | currency}}</td>

@@ -5,30 +5,86 @@ var mpga = angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirective
   $routeProvider.
     when('/current-partners', { templateUrl:'partials/current-partners.html', controller: 'CurrentPartnersController'}).
     when('/lost-partners', { templateUrl:'partials/lost-partners.html', controller: 'LostPartnersController'}).
+    when('/statistical-analysis', { templateUrl:'partials/statistical-analysis.html', controller:'StatisticalAnalysisController'}).
     when('/giving-range', { templateUrl:'partials/giving-range.html', controller: 'GivingRangeController'}).
     when('/giving-frequency', { templateUrl:'partials/giving-frequency.html', controller: 'GivingFrequencyController'}).
     when('/expenses', { templateUrl:'partials/expenses.html', controller: 'ExpensesController'}).
     otherwise({redirectTo:'/current-partners'});
+}]).
+  run(['$rootScope', function (rootScope) {
+  rootScope.isLostPartner = function (partner) {
+    return partner.twelveMonthTotalCount == 0;
+  }
 }]);
 
 /* Controllers */
 mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(scope, Partners) {
-  scope.partners = Partners.query();
+  var partners = Partners.query(function () {
+    scope.partners = _.reject(partners, scope.isLostPartner);
+  });
 
   scope.partnersData = [
     { 'label':'top 50', 'value':16},
-    { 'label':'bottom 50', 'value':107} ];
+    { 'label':'bottom 50', 'value':107}
+  ];
 }]);
 
 mpga.controller('LostPartnersController', ['$scope', 'Partners', function(scope, Partners) {
   var partners = Partners.query(function() {
-    scope.lostPartners = _.filter(partners, function(partnerRow) {
-      return partnerRow.twelveMonthTotalCount == 0;
-    });
+    scope.lostPartners = _.filter(partners, scope.isLostPartner);
   });
 }]);
 
-mpga.controller('GivingRangeController', ['$scope', 'Partners', function(scope, Partners) {
+mpga.controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+  var amount = filter('amount');
+  scope.singleGivers = [];
+  scope.multipleGivers = [];
+  scope.totalCurrentPartners = [];
+
+  var partners = Partners.query(function () {
+    var lostPartners = _.filter(partners, scope.isLostPartner);
+
+    var newPartners = _.filter(partners, function (partnerRow) {
+      // is their first gift in the past year?
+      return moment().diff(moment(partnerRow.firstTransactionDate), 'years') == 0;
+    });
+
+    scope.partnersStatus = {
+      lostPartners:_.size(lostPartners),
+      newPartners:_.size(newPartners),
+      currentPartners:_.size(partners) - ( _.size(lostPartners) + _.size(newPartners) )
+    };
+
+    scope.multipleGivers = _.filter(partners, function (partnerRow) {
+      return partnerRow.twelveMonthTotalCount > 1;
+    });
+    scope.singleGivers = _.filter(partners, function (partnerRow) {
+      return partnerRow.twelveMonthTotalCount == 1;
+    });
+    scope.totalCurrentPartners = _.union(scope.multipleGivers, scope.singleGivers);
+
+    scope.multipleGiversGiftCount = _.chain(scope.multipleGivers).
+      pluck('twelveMonthTotalCount').
+      reduce(function (a, b) {
+        return a + b;
+      }).
+      value();
+    scope.singleGiversGiftCount = _.chain(scope.singleGivers).
+      pluck('twelveMonthTotalCount').
+      reduce(function (a, b) {
+        return a + b;
+      }).
+      value();
+    scope.totalGiftCount = scope.multipleGiversGiftCount + scope.singleGiversGiftCount;
+
+    scope.multipleGiversTotalAmount = amount(scope.multipleGivers);
+    scope.singleGiversTotalAmount = amount(scope.singleGivers);
+    scope.totalAmount = scope.multipleGiversTotalAmount + scope.singleGiversTotalAmount;
+  });
+}]);
+
+mpga.controller('GivingRangeController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+  var amount = filter('amount');
   scope.ranges = [
     {high:10000000, low:200},
     {high:200, low:150},
@@ -41,20 +97,16 @@ mpga.controller('GivingRangeController', ['$scope', 'Partners', function(scope, 
   ];
 
   var partners = Partners.query(function() {
-    scope.currentPartners = _.filter(partners, function(partnerRow) {
-      return partnerRow['twelveMonthTotalCount'] > 0;
-    });
+    scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
     scope.totalCount = _.size(scope.currentPartners);
 
-    scope.totalAmount = _.chain(scope.currentPartners).
-      pluck('twelveMonthTotalAmount').
-      reduce( function(a, b){ return a + b; }).
-      value();
+    scope.totalAmount = amount(scope.currentPartners);
   });
 }]);
 
-mpga.controller('GivingFrequencyController', ['$scope', 'Partners', function(scope, Partners) {
+mpga.controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+  var amount = filter('amount');
   scope.ranges = [
     {label: '1 Gift', high:1, low:1},
     {label: '2-4 Gifts', high:4, low:2},
@@ -65,16 +117,11 @@ mpga.controller('GivingFrequencyController', ['$scope', 'Partners', function(sco
   ];
 
   var partners = Partners.query(function() {
-    scope.currentPartners = _.filter(partners, function(partnerRow) {
-      return partnerRow['twelveMonthTotalCount'] > 0;
-    });
+    scope.currentPartners = _.filter(partners, scope.isLostPartner);
 
     scope.totalCount = _.size(scope.currentPartners);
 
-    scope.totalAmount = _.chain(scope.currentPartners).
-      pluck('twelveMonthTotalAmount').
-      reduce( function(a, b){ return a + b; }).
-      value();
+    scope.totalAmount = amount(scope.currentPartners);
   });
 }]);
 
@@ -115,7 +162,7 @@ mpga.controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(
     };
     scope.ministryDescriptions = pullOutMatchingDescriptions(expenses, ministryPredicate);
 
-    //last table is category in (benefits, salary, contributions-assessment)
+    //last table is `category in (benefits, salary, contributions-assessment)`
     var beneSalCont = ['benefits', 'salary', 'contributions-assessment'];
     var beneSalContPredicate = function(transactionSummary){
       return _.contains(beneSalCont, transactionSummary.category);
@@ -172,7 +219,7 @@ angular.module('mpgaFilters', []).
         value() / 12 / _.size(partners);
     };
   }).
-  filter('count', function () {
+  filter('size',function () {
     return function(arr) {
       return _.size(arr);
     };

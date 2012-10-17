@@ -1,0 +1,71 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Number of Gifts per Year</th>
+
+    <th># of Financial Partners</th>
+    <th>Total Amount Given</th>
+    <th>Total # of Gifts</th>
+    <th>Average Gift Amount</th>
+    <th>Average Monthly Gifts</th>
+    <th>Average Monthly Support</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Multiple Gifts</td>
+
+    <td>{{multipleGivers | size}}</td>
+    <td>{{multipleGiversTotalAmount | currency}}</td>
+    <td>{{multipleGiversGiftCount}}</td>
+    <td>{{multipleGiversTotalAmount / multipleGiversGiftCount | currency}}</td>
+    <td>{{multipleGiversTotalAmount / multipleGiversGiftCount / 12 | currency}}</td>
+    <td>{{multipleGivers | monthlyAmount | currency}}</td>
+  </tr>
+  <tr>
+    <td>Single Gifts</td>
+
+    <td>{{singleGivers | size}}</td>
+    <td>{{singleGivers | amount | currency}}</td>
+    <td>{{singleGiversGiftCount}}</td>
+    <td>{{singleGiversTotalAmount / singleGiversGiftCount | currency}}</td>
+    <td>{{singleGiversTotalAmount / singleGiversGiftCount / 12 | currency}}</td>
+    <td>{{singleGivers | monthlyAmount | currency}}</td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td>Total</td>
+
+    <td>{{totalCurrentPartners | size}}</td>
+    <td>{{totalAmount | currency}}</td>
+    <td>{{totalGiftCount}}</td>
+    <td>{{totalAmount / totalGiftCount | currency}}</td>
+    <td>{{totalAmount / totalGiftCount / 12 | currency}}</td>
+    <td>{{totalCurrentPartners | monthlyAmount | currency}}</td>
+  </tr>
+  </tfoot>
+</table>
+<p>
+  single vs multiple gifts pie chart
+</p>
+
+<table class="table table-striped">
+  <tbody>
+  <tr>
+    <td>New Partners</td>
+    <td>{{partnersStatus.newPartners}}</td>
+  </tr>
+  <tr>
+    <td>Current Partners</td>
+    <td>{{partnersStatus.currentPartners}}</td>
+  </tr>
+  <tr>
+    <td>Lost Partners</td>
+    <td>{{partnersStatus.lostPartners}}</td>
+  </tr>
+  </tbody>
+</table>
+<p>
+  current vs new vs lost partners
+</p>
