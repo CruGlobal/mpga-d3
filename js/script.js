@@ -23,7 +23,7 @@ mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(sco
 mpga.controller('LostPartnersController', ['$scope', 'Partners', function(scope, Partners) {
   var partners = Partners.query(function() {
     scope.lostPartners = _.filter(partners, function(partnerRow) {
-      return partnerRow['12MonthTotalCount'] == 0;
+      return partnerRow.twelveMonthTotalCount == 0;
     });
   });
 }]);
@@ -42,13 +42,13 @@ mpga.controller('GivingRangeController', ['$scope', 'Partners', function(scope, 
 
   var partners = Partners.query(function() {
     scope.currentPartners = _.filter(partners, function(partnerRow) {
-      return partnerRow['12MonthTotalCount'] > 0;
+      return partnerRow['twelveMonthTotalCount'] > 0;
     });
 
     scope.totalCount = _.size(scope.currentPartners);
 
     scope.totalAmount = _.chain(scope.currentPartners).
-      pluck('12MonthTotalAmount').
+      pluck('twelveMonthTotalAmount').
       reduce( function(a, b){ return a + b; }).
       value();
   });
@@ -66,13 +66,13 @@ mpga.controller('GivingFrequencyController', ['$scope', 'Partners', function(sco
 
   var partners = Partners.query(function() {
     scope.currentPartners = _.filter(partners, function(partnerRow) {
-      return partnerRow['12MonthTotalCount'] > 0;
+      return partnerRow['twelveMonthTotalCount'] > 0;
     });
 
     scope.totalCount = _.size(scope.currentPartners);
 
     scope.totalAmount = _.chain(scope.currentPartners).
-      pluck('12MonthTotalAmount').
+      pluck('twelveMonthTotalAmount').
       reduce( function(a, b){ return a + b; }).
       value();
   });
@@ -151,7 +151,7 @@ angular.module('mpgaFilters', []).
   filter('amount', function () {
     return function(partners) {
       return _.chain(partners).
-        pluck('12MonthTotalAmount').
+        pluck('twelveMonthTotalAmount').
         reduce( function(a, b){ return a + b; }, 0).
         value();
     };
@@ -159,7 +159,7 @@ angular.module('mpgaFilters', []).
   filter('monthlyAmount', function () {
     return function(partners) {
       return _.chain(partners).
-        pluck('12MonthTotalAmount').
+        pluck('twelveMonthTotalAmount').
         reduce( function(a, b){ return a + b; }, 0).
         value() / 12;
     };
@@ -167,7 +167,7 @@ angular.module('mpgaFilters', []).
   filter('monthlyAmountPerPartner', function () {
     return function(partners) {
       return _.chain(partners).
-        pluck('12MonthTotalAmount').
+        pluck('twelveMonthTotalAmount').
         reduce( function(a, b){ return a + b; }, 0).
         value() / 12 / _.size(partners);
     };
@@ -180,7 +180,7 @@ angular.module('mpgaFilters', []).
   filter('amountPercentage', function () {
     return function(partners, total) {
       return _.chain(partners).
-        pluck('12MonthTotalAmount').
+        pluck('twelveMonthTotalAmount').
         reduce( function(a, b){ return a + b; }, 0).
         value() / total * 100;
     };
@@ -196,7 +196,7 @@ angular.module('mpgaFilters', []).
     return function(partners, range) {
       if(_.isArray(partners))
         return _.filter(partners, function(partner) {
-          return partner['12MonthTotalAmount'] > range.low * 12;
+          return partner['twelveMonthTotalAmount'] > range.low * 12;
         });
       else
         return [];
@@ -206,8 +206,8 @@ angular.module('mpgaFilters', []).
     return function(partners, range) {
       if(_.isArray(partners))
         return _.filter(partners, function(partner) {
-          return partner['12MonthTotalAmount'] < range.high * 12
-            && partner['12MonthTotalAmount'] > range.low * 12;
+          return partner['twelveMonthTotalAmount'] < range.high * 12
+            && partner['twelveMonthTotalAmount'] > range.low * 12;
         });
       else
         return [];
@@ -217,8 +217,8 @@ angular.module('mpgaFilters', []).
     return function(partners, range) {
       if(_.isArray(partners))
         return _.filter(partners, function(partner) {
-          return partner['12MonthTotalCount'] <= range.high
-            && partner['12MonthTotalCount'] >= range.low;
+          return partner.twelveMonthTotalCount <= range.high
+            && partner.twelveMonthTotalCount >= range.low;
         });
       else
         return [];

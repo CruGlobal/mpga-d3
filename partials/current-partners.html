@@ -1,23 +1,23 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th>Account Number</th>
-    <th>Account Name</th>
-    <th>12 Month Giving Total</th>
-    <th>12 Month Gift Count</th>
-    <th>12 Month Giving Average</th>
-    <th>First Gift Date</th>
-    <th>Last Gift Date</th>
-    <th>Lifetime Total</th>
+    <th> Account Number</th>
+    <th data-ng-click="comparator = 'accountName'; reverse=!reverse">Account Name</th>
+    <th data-ng-click="comparator = 'twelveMonthTotalAmount'; reverse=!reverse">12 Month Giving Total</th>
+    <th data-ng-click="comparator = 'twelveMonthTotalCount'; reverse=!reverse">12 Month Gift Count</th>
+    <th data-ng-click="comparator = 'twelveMonthTotalAmount'; reverse=!reverse">12 Month Giving Average</th>
+    <th data-ng-click="comparator = 'firstTransactionDate'; reverse=!reverse">First Gift Date</th>
+    <th data-ng-click="comparator = 'lastTransactionDate'; reverse=!reverse">Last Gift Date</th>
+    <th data-ng-click="comparator = 'totalTransactionAmount'; reverse=!reverse">Lifetime Total</th>
   </tr>
   </thead>
   <tbody>
-  <tr data-ng-repeat="partner in partners">
+  <tr data-ng-repeat="partner in partners | orderBy:comparator:reverse">
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
-    <td>{{partner['12MonthTotalAmount'] | currency}}</td>
-    <td>{{partner['12MonthTotalCount']}}</td>
-    <td>{{partner['12MonthTotalAmount'] / 12 | currency}}</td>
+    <td>{{partner.twelveMonthTotalAmount | currency}}</td>
+    <td>{{partner.twelveMonthTotalCount}}</td>
+    <td>{{partner.twelveMonthTotalAmount / 12 | currency}}</td>
     <td>{{partner.firstTransactionDate | date:'M/d/yyyy'}}</td>
     <td>{{partner.lastTransactionDate | date:'M/d/yyyy'}}</td>
     <td>{{partner.totalTransactionAmount | currency}}</td>

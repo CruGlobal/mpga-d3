@@ -1,15 +1,15 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th>Account Number</th>
-    <th>Account Name</th>
-    <th>First Gift Date</th>
-    <th>Last Gift Date</th>
-    <th>Lifetime Total</th>
+    <th> Account Number</th>
+    <th data-ng-click="comparator = 'accountName'; reverse=!reverse">Account Name</th>
+    <th data-ng-click="comparator = 'firstTransactionDate'; reverse=!reverse">First Gift Date</th>
+    <th data-ng-click="comparator = 'lastTransactionDate'; reverse=!reverse">Last Gift Date</th>
+    <th data-ng-click="comparator = 'totalTransactionAmount'; reverse=!reverse">Lifetime Total</th>
   </tr>
   </thead>
   <tbody>
-  <tr data-ng-repeat="partner in lostPartners">
+  <tr data-ng-repeat="partner in lostPartners | orderBy:comparator:reverse">
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
     <td>{{partner.firstTransactionDate | date:'M/d/yyyy'}}</td>
