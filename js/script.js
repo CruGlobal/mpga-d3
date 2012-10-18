@@ -1,6 +1,6 @@
 'use strict';
 
-var mpga = angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
+angular.module('mpga', ['mpgaControllers', 'mpgaFilters', 'mpgaServices', 'mpgaDirectives']).
   config(['$routeProvider', function ($routeProvider) {
   $routeProvider.
     when('/current-partners', { templateUrl:'partials/current-partners.html', controller: 'CurrentPartnersController'}).
@@ -18,7 +18,8 @@ var mpga = angular.module('mpga', ['mpgaFilters', 'mpgaServices', 'mpgaDirective
 }]);
 
 /* Controllers */
-mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(scope, Partners) {
+angular.module('mpgaControllers', []).
+  controller('CurrentPartnersController', ['$scope', 'Partners', function(scope, Partners) {
   scope.sortOn = function(column) {
     if(scope.sortingColumn === column) {
       scope.reverse = !scope.reverse;
@@ -38,9 +39,8 @@ mpga.controller('CurrentPartnersController', ['$scope', 'Partners', function(sco
     { 'label':'top 50', 'value':16},
     { 'label':'bottom 50', 'value':107}
   ];
-}]);
-
-mpga.controller('LostPartnersController', ['$scope', 'Partners', function(scope, Partners) {
+}]).
+  controller('LostPartnersController', ['$scope', 'Partners', function(scope, Partners) {
   scope.sortOn = function(column) {
     if(scope.sortingColumn === column) {
       scope.reverse = !scope.reverse;
@@ -55,9 +55,8 @@ mpga.controller('LostPartnersController', ['$scope', 'Partners', function(scope,
   var partners = Partners.query(function() {
     scope.lostPartners = _.filter(partners, scope.isLostPartner);
   });
-}]);
-
-mpga.controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+}]).
+  controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
   var amount = filter('amount');
   scope.singleGivers = [];
   scope.multipleGivers = [];
@@ -103,9 +102,8 @@ mpga.controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners
     scope.singleGiversTotalAmount = amount(scope.singleGivers);
     scope.totalAmount = scope.multipleGiversTotalAmount + scope.singleGiversTotalAmount;
   });
-}]);
-
-mpga.controller('GivingRangeController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+}]).
+  controller('GivingRangeController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
   var amount = filter('amount');
   scope.ranges = [
     {high:10000000, low:200},
@@ -125,9 +123,8 @@ mpga.controller('GivingRangeController', ['$scope', '$filter', 'Partners', funct
 
     scope.totalAmount = amount(scope.currentPartners);
   });
-}]);
-
-mpga.controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+}]).
+  controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
   var amount = filter('amount');
   scope.ranges = [
     {label: '1 Gift', high:1, low:1},
@@ -145,9 +142,8 @@ mpga.controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', f
 
     scope.totalAmount = amount(scope.currentPartners);
   });
-}]);
-
-mpga.controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(scope, Expenses, Income) {
+}]).
+  controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(scope, Expenses, Income) {
   scope.months = _.map(_.range(12), function(monthsToAdd) {
     return moment().subtract('years', 1).add('months', monthsToAdd).format('YYYY-MM');
   });
@@ -198,9 +194,8 @@ mpga.controller('ExpensesController', ['$scope', 'Expenses', 'Income', function(
     };
     scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
   });
-}]);
-
-mpga.controller('NavigationController', ['$scope', '$location', function(scope, location) {
+}]).
+  controller('NavigationController', ['$scope', '$location', function(scope, location) {
   scope.navClass = function (page) {
     var currentRoute = location.path().substring(1) || 'current-partners';
     return (page === currentRoute) ? 'active' : '';
