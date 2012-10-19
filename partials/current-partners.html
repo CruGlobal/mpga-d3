@@ -1,14 +1,14 @@
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <thead>
   <tr data-ng-class="arrowDirection">
-    <th> Account Number</th>
-    <th data-ng-class="active.accountName" data-ng-click="sortOn('accountName')">Account Name</th>
-    <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')">12 Month Giving Total</th>
-    <th data-ng-class="active.twelveMonthTotalCount" data-ng-click="sortOn('twelveMonthTotalCount')">12 Month Gift Count</th>
-    <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')">12 Month Giving Average</th>
-    <th data-ng-class="active.firstTransactionDate" data-ng-click="sortOn('firstTransactionDate')">First Gift Date</th>
-    <th data-ng-class="active.lastTransactionDate" data-ng-click="sortOn('lastTransactionDate')">Last Gift Date</th>
-    <th data-ng-class="active.totalTransactionAmount" data-ng-click="sortOn('totalTransactionAmount')">Lifetime Total</th>
+    <th> Acct. Number</th>
+    <th data-ng-class="active.accountName" data-ng-click="sortOn('accountName')">Acct. Name</th>
+    <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')">12 Mo. Giving Tot.</th>
+    <th data-ng-class="active.twelveMonthTotalCount" data-ng-click="sortOn('twelveMonthTotalCount')">12 Mo. Gift Count</th>
+    <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')">12 Mo. Giving Ave.</th>
+    <th data-ng-class="active.firstTransactionDate" data-ng-click="sortOn('firstTransactionDate')">First Gift</th>
+    <th data-ng-class="active.lastTransactionDate" data-ng-click="sortOn('lastTransactionDate')">Last Gift</th>
+    <th data-ng-class="active.totalTransactionAmount" data-ng-click="sortOn('totalTransactionAmount')">Lifetime Tot.</th>
   </tr>
   </thead>
   <tbody>
@@ -18,8 +18,8 @@
     <td>{{partner.twelveMonthTotalAmount | currency}}</td>
     <td>{{partner.twelveMonthTotalCount}}</td>
     <td>{{partner.twelveMonthTotalAmount / 12 | currency}}</td>
-    <td>{{partner.firstTransactionDate | date:'M/d/yyyy'}}</td>
-    <td>{{partner.lastTransactionDate | date:'M/d/yyyy'}}</td>
+    <td>{{partner.firstTransactionDate | date:'MM/dd/yy'}}</td>
+    <td>{{partner.lastTransactionDate | date:'MM/dd/yy'}}</td>
     <td>{{partner.totalTransactionAmount | currency}}</td>
   </tr>
   </tbody>
