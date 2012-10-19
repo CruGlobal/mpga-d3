@@ -252,6 +252,24 @@ thead tr.ascending th[data-ng-click].sorting {
     background: #90ee90; /*TODO Eli work your magic here.*/
 }
 
+/*
+  For bar charts.
+  NOTE: This is SVG styling
+ */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.x.axis path {
+    display: none;
+}
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
