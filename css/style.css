@@ -260,11 +260,6 @@ td { vertical-align: top; }
 table.table th, table.table td {
 	text-align: right;
 }
-table.table th.sortable-header {
-	background: url(/img/sorting-arrows.gif) no-repeat center right;
-	padding-right: 20px;
-	cursor: pointer;
-}
 .table-hover tbody tr:hover td,
 .table-hover tbody tr:hover th {
   background-color: #f5f5f5 !important;
@@ -272,12 +267,9 @@ table.table th.sortable-header {
 .header_one {
 	color: #1787aa !important; border-bottom: 7px solid #1787aa; text-align: left !important;
 }
-
 .header_two {
 	color: #3eb1c8 !important; border-bottom: 7px solid #3eb1c8; text-align: left !important;
 }   
-   
-
 table.table th {
     color: rgb(212, 159, 6); font-weight: normal;
 }
@@ -290,17 +282,22 @@ table.table th.header {
 table.table tr.last_column td {
     background-color: #1eec39; color: #d12b2b;
 }
-
-thead th[data-ng-click] {
-    background: transparent; /*TODO Eli work your magic here.*/
+table.table th[data-ng-click] {
+    background: url(/img/sorting-arrows.gif) no-repeat center right;
+	padding-right: 20px;
+	cursor: pointer;
 }
 
-thead tr.descending th[data-ng-click].sorting {
-    background: #db7093; /*TODO Eli work your magic here.*/
+table.table tr.descending th[data-ng-click].sorting {
+    background: url(/img/sorting-arrows-desc.gif) no-repeat center right;
+	padding-right: 20px;
+	cursor: pointer;
 }
 
-thead tr.ascending th[data-ng-click].sorting {
-    background: #90ee90; /*TODO Eli work your magic here.*/
+table.table tr.ascending th[data-ng-click].sorting {
+    background: url(/img/sorting-arrows-asc.gif) no-repeat center right;
+	padding-right: 20px;
+	cursor: pointer;
 }
 
 /*
