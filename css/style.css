@@ -257,8 +257,13 @@ td { vertical-align: top; }
    
    
    
-table.table td, table.table th {
+table.table th, table.table td {
 	text-align: right;
+}
+table.table th.sortable-header {
+	background: url(/img/sorting-arrows.gif) no-repeat center right;
+	padding-right: 20px;
+	cursor: pointer;
 }
 .table-hover tbody tr:hover td,
 .table-hover tbody tr:hover th {
