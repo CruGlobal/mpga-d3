@@ -119,17 +119,41 @@
       {label:'13+ Gifts', high:1000000, low:13}
     ];
 
+
+    var amount = filter('amount');
+    var frequencyBandPass = filter('frequencyBandPass');
     var partners = Partners.query(function () {
       scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
       scope.totalCount = _.size(scope.currentPartners);
 
       scope.totalAmount = amount(scope.currentPartners);
+
+      scope.chartData = _.map(scope.ranges, function(range) {
+        return {
+          label:range.label,
+          value:_.size(frequencyBandPass(scope.currentPartners, range))
+        };
+      });
     });
   }]).
     controller('ExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
     scope.months = _.map(_.range(12), function (monthsToAdd) {
-      return moment().subtract('years', 1).add('months', monthsToAdd).format('YYYY-MM');
+      var month = moment().subtract('years', 1).add('months', monthsToAdd);
+
+      // Sorry, this is a bit weird.
+      // Display the year only if it's the first column in the expenses table
+      //   (the first month of last year that we are displaying)
+      // OR
+      // January of the current year
+      var displayYear = monthsToAdd === 0 || month.format('M') === '1';
+
+      return {
+        shortName : month.format('MMM'),
+        yearMonthKey : month.format('YYYY-MM'),
+        year : displayYear ? month.format('YYYY') : '',
+        style : month.year() === moment().year() ? 'header_two' : 'header_one'
+      };
     });
 
     var pullOutMatchingDescriptions = function (expenseItems, predicate) {
@@ -156,7 +180,7 @@
     });
 
     var expenses = Expenses.query(function () {
-      scope.expenses = expenses; // subject to change
+      scope.expenses = expenses;
 
       //ministry is category === reimbursement
       var ministryPredicate = function (transactionSummary) {

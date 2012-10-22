@@ -2,8 +2,14 @@
 <table class="table table-striped">
   <thead>
   <tr>
+    <th>&nbsp;</th>
+    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
     <th>Description</th>
-    <th data-ng-repeat="month in months">{{month}}</th>
+    <th data-ng-repeat="month in months">{{month.shortName}}</th>
     <th>Average</th>
     <th>Total</th>
   </tr>
@@ -12,7 +18,7 @@
   <tr data-ng-repeat="description in incomeDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-    {{ income | filter:{month:month} | matchDescriptionAndSum:description }}
+    {{ income | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
     </td>
     <td>{{ income  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
     <td>{{ income  | matchDescriptionAndSum:description }}</td>
@@ -26,8 +32,14 @@
 <table class="table table-striped">
   <thead>
   <tr>
+    <th>&nbsp;</th>
+    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
     <th>Description</th>
-    <th data-ng-repeat="month in months">{{month}}</th>
+    <th data-ng-repeat="month in months">{{month.shortName}}</th>
     <th>Average</th>
     <th>Total</th>
   </tr>
@@ -36,7 +48,7 @@
   <tr data-ng-repeat="description in ministryDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month} | matchDescriptionAndSum:description }}
+      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
     </td>
     <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
     <td>{{ expenses  | matchDescriptionAndSum:description }}</td>
@@ -50,8 +62,14 @@
 <table class="table table-striped">
   <thead>
   <tr>
+    <th>&nbsp;</th>
+    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
     <th>Description</th>
-    <th data-ng-repeat="month in months">{{month}}</th>
+    <th data-ng-repeat="month in months">{{month.shortName}}</th>
     <th>Average</th>
     <th>Total</th>
   </tr>
@@ -60,7 +78,7 @@
   <tr data-ng-repeat="description in miscDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month} | matchDescriptionAndSum:description }}
+      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
     </td>
     <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
     <td>{{ expenses  | matchDescriptionAndSum:description }}</td>
@@ -74,8 +92,14 @@
 <table class="table table-striped">
   <thead>
   <tr>
+    <th>&nbsp;</th>
+    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
     <th>Description</th>
-    <th data-ng-repeat="month in months">{{month}}</th>
+    <th data-ng-repeat="month in months">{{month.shortName}}</th>
     <th>Average</th>
     <th>Total</th>
   </tr>
@@ -84,7 +108,7 @@
   <tr data-ng-repeat="description in benefitsDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month} | matchDescriptionAndSum:description }}
+      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
     </td>
     <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
     <td>{{ expenses  | matchDescriptionAndSum:description }}</td>
