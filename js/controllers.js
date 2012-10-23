@@ -236,18 +236,11 @@
         value();
     };
 
-    scope.income = [];
-    var income = Income.query(function () {
-      scope.income = income;
-
-      var incomePredicate = function (transactionSummary) {
-        return transactionSummary.total > 0;
-      };
-      scope.incomeDescriptions = pullOutMatchingDescriptions(income, incomePredicate);
-
-      scope.totalIncome = _.chain(income).
+    var sumUpMonthData = function(monthData, predicate) {
+      return _.chain(monthData).
         map(function (monthDatum) {
           return _.chain(monthDatum.transactionSummaries).
+            filter(predicate).
             pluck('total').
             value();
         }).
@@ -256,6 +249,15 @@
           return a + b;
         }, 0).
         value();
+    }
+
+    scope.income = [];
+    var income = Income.query(function () {
+      scope.income = income;
+
+      scope.incomeDescriptions = pullOutMatchingDescriptions(income, _.identity);
+
+      scope.totalIncome = sumUpMonthData(income, _.identity);
     });
 
     scope.expenses = [];
@@ -281,17 +283,41 @@
       };
       scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
 
-      scope.totalExpenses = _.chain(expenses).
-        map(function (monthDatum) {
-          return _.chain(monthDatum.transactionSummaries).
-            pluck('total').
-            value();
-        }).
-        flatten().
-        reduce(function (a, b) {
-          return a + b;
-        }, 0).
-        value();
+      scope.totalExpenses = sumUpMonthData(expenses, _.identity);
+
+      scope.expensesPieData = [
+        {
+          key : 'Expenses',
+          values : [
+            {
+              label:'Salary',
+              value: sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'salary';
+              })
+            },
+            {
+              label:'Misc',
+              value:sumUpMonthData(expenses, miscPredicate)
+            },
+            {
+              label:'Benefits',
+              value:sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'benefits';
+              })
+            },
+            {
+              label:'Assessment',
+              value:sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'contributions-assessment';
+              })
+            },
+            {
+              label:'Ministry Expenses',
+              value:sumUpMonthData(expenses, ministryPredicate)
+            }
+          ]
+        }
+      ];
     });
   }]).
     controller('NavigationController', ['$scope', '$location', function (scope, location) {
