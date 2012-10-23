@@ -17,12 +17,39 @@
 
     var partners = Partners.query(function () {
       scope.partners = _.reject(partners, scope.isLostPartner);
-    });
 
-    scope.partnersData = [
-      { 'label':'top 50', 'value':16},
-      { 'label':'bottom 50', 'value':107}
-    ];
+      _.mixin({
+        median : function(sortedArrayOfNumbers) {
+          return d3.median(sortedArrayOfNumbers);
+        }
+      });
+
+      scope.medianYearlyAmount = _.chain(scope.partners)
+        .pluck('twelveMonthTotalAmount')
+        .sortBy(_.identity)
+        .median()
+        .value();
+
+      var upperHalf = function(partner) {
+        return partner.twelveMonthTotalAmount > scope.medianYearlyAmount;
+      };
+
+      scope.partnersData = [
+        {
+          key : 'Support Distribution',
+          values : [
+            {
+              label:'Upper 50% Givers',
+              value:_.size(_.filter(partners, upperHalf))
+            },
+            {
+              label:'Lower 50% Givers',
+              value:_.size(_.reject(partners, upperHalf))
+            }
+          ]
+        }
+      ];
+    });
   }]).
     controller('LostPartnersController', ['$scope', 'Partners', function (scope, Partners) {
     scope.sortOn = function (column) {
@@ -45,6 +72,7 @@
     scope.singleGivers = [];
     scope.multipleGivers = [];
     scope.totalCurrentPartners = [];
+    scope.newCurrentLostData = [];
 
     var partners = Partners.query(function () {
       var lostPartners = _.filter(partners, scope.isLostPartner);
@@ -54,11 +82,16 @@
         return moment().diff(moment(partnerRow.firstTransactionDate), 'years') == 0;
       });
 
-      scope.partnersStatus = {
-        lostPartners:_.size(lostPartners),
-        newPartners:_.size(newPartners),
-        currentPartners:_.size(partners) - ( _.size(lostPartners) + _.size(newPartners) )
-      };
+      scope.newCurrentLostData = [
+        {
+          key : 'Partner Status Breakdown',
+          values : [
+            { 'label':'Lost Partners', 'value':_.size(lostPartners)},
+            { 'label':'New Partners', 'value':_.size(newPartners)},
+            { 'label':'Current Partners', 'value':_.size(partners) - ( _.size(lostPartners) + _.size(newPartners) )}
+          ]
+        }
+      ];
 
       scope.multipleGivers = _.filter(partners, function (partnerRow) {
         return partnerRow.twelveMonthTotalCount > 1;
@@ -85,10 +118,26 @@
       scope.multipleGiversTotalAmount = amount(scope.multipleGivers);
       scope.singleGiversTotalAmount = amount(scope.singleGivers);
       scope.totalAmount = scope.multipleGiversTotalAmount + scope.singleGiversTotalAmount;
+
+
+      scope.multipleSingleData = [
+        {
+          key : 'Repeat Giving Distribution',
+          values : [
+            {
+              label:'Multiple Givers',
+              value:_.size(scope.multipleGivers)
+            },
+            {
+              label:'Single Givers',
+              value:_.size(scope.singleGivers)
+            }
+          ]
+        }
+      ];
     });
   }]).
     controller('GivingRangeController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
-    var amount = filter('amount');
     scope.ranges = [
       {high:10000000, low:200},
       {high:200, low:150},
@@ -100,16 +149,29 @@
       {high:10, low:0}
     ];
 
+    var amount = filter('amount');
+    var rangeBandPass = filter('rangeBandPass');
     var partners = Partners.query(function () {
       scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
       scope.totalCount = _.size(scope.currentPartners);
 
       scope.totalAmount = amount(scope.currentPartners);
+
+      scope.chartData = [
+        {
+          key : 'Giving Range',
+          values : _.map(scope.ranges, function(range) {
+            return {
+              label: '$' + range.low + '+',
+              value:_.size(rangeBandPass(scope.currentPartners, range))
+            };
+          })
+        }
+      ];
     });
   }]).
     controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
-    var amount = filter('amount');
     scope.ranges = [
       {label:'1 Gift', high:1, low:1},
       {label:'2-4 Gifts', high:4, low:2},
@@ -129,12 +191,17 @@
 
       scope.totalAmount = amount(scope.currentPartners);
 
-      scope.chartData = _.map(scope.ranges, function(range) {
-        return {
-          label:range.label,
-          value:_.size(frequencyBandPass(scope.currentPartners, range))
-        };
-      });
+      scope.chartData = [
+        {
+          key : 'Giving Range',
+          values : _.map(scope.ranges, function(range) {
+            return {
+              label:range.label,
+              value:_.size(frequencyBandPass(scope.currentPartners, range))
+            };
+          })
+        }
+      ];
     });
   }]).
     controller('ExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
@@ -169,16 +236,31 @@
         value();
     };
 
+    var sumUpMonthData = function(monthData, predicate) {
+      return _.chain(monthData).
+        map(function (monthDatum) {
+          return _.chain(monthDatum.transactionSummaries).
+            filter(predicate).
+            pluck('total').
+            value();
+        }).
+        flatten().
+        reduce(function (a, b) {
+          return a + b;
+        }, 0).
+        value();
+    }
+
+    scope.income = [];
     var income = Income.query(function () {
       scope.income = income;
 
-      //income is all positive entries
-      var incomePredicate = function (transactionSummary) {
-        return transactionSummary.total > 0;
-      };
-      scope.incomeDescriptions = pullOutMatchingDescriptions(income, incomePredicate);
+      scope.incomeDescriptions = pullOutMatchingDescriptions(income, _.identity);
+
+      scope.totalIncome = sumUpMonthData(income, _.identity);
     });
 
+    scope.expenses = [];
     var expenses = Expenses.query(function () {
       scope.expenses = expenses;
 
@@ -200,6 +282,42 @@
         return !ministryPredicate(transactionSummary) && !beneSalContPredicate(transactionSummary);
       };
       scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
+
+      scope.totalExpenses = sumUpMonthData(expenses, _.identity);
+
+      scope.expensesPieData = [
+        {
+          key : 'Expenses',
+          values : [
+            {
+              label:'Salary',
+              value: sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'salary';
+              })
+            },
+            {
+              label:'Misc',
+              value:sumUpMonthData(expenses, miscPredicate)
+            },
+            {
+              label:'Benefits',
+              value:sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'benefits';
+              })
+            },
+            {
+              label:'Assessment',
+              value:sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'contributions-assessment';
+              })
+            },
+            {
+              label:'Ministry Expenses',
+              value:sumUpMonthData(expenses, ministryPredicate)
+            }
+          ]
+        }
+      ];
     });
   }]).
     controller('NavigationController', ['$scope', '$location', function (scope, location) {

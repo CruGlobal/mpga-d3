@@ -2,133 +2,150 @@
 
 /* Directives */
 (function () {
-  angular.module('mpgaDirectives', []).
-    directive('piechart',function () {
-      var width = 300,
-        height = 300,
-        radius = 100,
-        color = d3.scale.category20();
+  var d3CruColorScale16 = function(i) {
+    var darkBlue = "#0a7292";
+    var redOrange = "#de7c00";
+    var yellow = "#ecb926";
+    var lightBlue = "#3eb1c8";
+    return [
+      d3.rgb(darkBlue).brighter(1),
+      d3.rgb(redOrange).brighter(1),
+      d3.rgb(yellow).brighter(1),
+      d3.rgb(lightBlue).brighter(1),
+      d3.rgb(darkBlue).brighter(2),
+      d3.rgb(redOrange).brighter(2),
+      d3.rgb(yellow).brighter(2),
+      d3.rgb(lightBlue).brighter(2),
+      d3.rgb(darkBlue),
+      d3.rgb(redOrange),
+      d3.rgb(yellow),
+      d3.rgb(lightBlue),
+      d3.rgb(darkBlue).darker(1),
+      d3.rgb(redOrange).darker(1),
+      d3.rgb(yellow).darker(1),
+      d3.rgb(lightBlue).darker(1)
+    ][i];
+  };
 
+  angular.module('mpgaDirectives', []).
+    directive('nvPiechart',function () {
       return {
-        restrict:'A',
         scope:{
           input:'='
         },
         link:function (scope, element, attrs) {
-          var vis = d3.select(element[0])
-            .append("svg:svg")//create the SVG element inside the element
-            .data([scope.input])//associate our data with the document
-            .attr("width", width)//set the width and height of our visualization (these will be attributes of the <svg> tag
-            .attr("height", height)
-            .append("svg:g")//make a group to hold our pie chart
-            .attr("transform", "translate(" + radius + "," + radius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+          scope.$watch('input', function(newInput, oldInput) {
+            if(!newInput) {
+              return;
+            }
 
-          var arc = d3.svg.arc()//this will create <path> elements for us using arc data
-            .outerRadius(radius);
+            nv.addGraph(function() {
+              var chart = nv.models.pieChart()
+                .x(function(d) { return d.label })
+                .y(function(d) { return d.value })
+                .showLabels(true);
 
-          var pie = d3.layout.pie()//this will create arc data for us given a list of values
-            .value(function (d) {
-              return d.value;
-            });    //we must tell it out to access the value of each element in our data array
+              d3.select(element[0])
+                .datum(scope.input)
+                .transition().duration(1200)
+                .call(chart);
 
-          var arcs = vis.selectAll("g.slice")//this selects all <g> elements with class slice (there aren't any yet)
-            .data(pie)//associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
-            .enter()//this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-            .append("svg:g")//create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-            .attr("class", "slice");    //allow us to style things in the slices (like text)
-
-          arcs.append("svg:path")
-            .attr("fill", function (d, i) {
-              return color(i);
-            })//set the color for each slice to be chosen from the color function defined above
-            .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-
-          arcs.append("svg:text")//add a label to each slice
-            .attr("transform", function (d) {                    //set the label's origin to the center of the arc
-              //we have to make sure to set these before calling arc.centroid
-              d.innerRadius = 0;
-              d.outerRadius = radius;
-              return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-            })
-            .attr("text-anchor", "middle")//center the text on it's origin
-            .text(function (d, i) {
-              return scope.input[i].label;
-            });        //get the label from our original data array
+              return chart;
+            });
+          });
         }
       }
     }).
-    directive('barchart', function () {
-      var margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = 300 - margin.left - margin.right,
-        height = 300 - margin.top - margin.bottom,
-        radius = 100,
-        color = d3.scale.category20();
-
+    directive('nvBarchart',function () {
       return {
-        restrict:'A',
         scope:{
-          input:'=',
-          yLabel:'='
+          input:'='
         },
         link:function (scope, element, attrs) {
-          var x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .1);
+          scope.$watch('input', function(newInput, oldInput) {
+            if(!newInput) {
+              return;
+            }
 
-          var y = d3.scale.linear()
-            .range([height, 0]);
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                .x(function(d) { return d.label })
+                .y(function(d) { return d.value })
+                .tooltips(false)
+                .showValues(true);
 
-          var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
+              chart.yAxis
+                .tickFormat(d3.format(',.0f'));
 
-          var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            .tickFormat(d3.format(",.0f"));
+              chart.valueFormat(d3.format(',.0f'));
 
-          var svg = d3.select(element[0])
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+              d3.select(element[0])
+                .datum(scope.input)
+                .transition().duration(500)
+                .call(chart);
 
-          x.domain(scope.input.map(function (d) {
-            return d.label;
-          }));
-          y.domain([0, d3.max(scope.input, function (d) {
-            return d.value;
-          })]);
+              nv.utils.windowResize(chart.update);
 
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
-
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(scope.yLabel);
-
-          svg.selectAll(".bar")
-            .data(scope.input)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function (d) {
-              return x(d.label);
-            })
-            .attr("width", x.rangeBand())
-            .attr("y", function (d) {
-              return y(d.value);
-            })
-            .attr("height", function (d) {
-              return height - y(d.value);
+              return chart;
             });
+
+          });
+        }
+      }
+    }).
+    directive('totalIncomeExpenses',function () {
+      return {
+        scope:{
+          totalIncome:'=',
+          totalExpenses:'='
+        },
+        link:function (scope, element, attrs) {
+          scope.$watch(function() {
+            return angular.toJson(scope.totalIncome + scope.totalExpenses);
+          }, function(newInput, oldInput) {
+            if(!_.isNumber(scope.totalIncome)
+              || !_.isNumber(scope.totalExpenses)) {
+              return;
+            }
+
+            var data = [
+              {
+                key : 'Income/Expenses',
+                values : [
+                  {
+                    label : 'Income',
+                    value : scope.totalIncome
+                  },
+                  {
+                    label : 'Expenses',
+                    value : scope.totalExpenses
+                  }
+                ]
+              }
+            ];
+
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                .x(function(d) { return d.label })
+                .y(function(d) { return d.value })
+                .tooltips(false)
+                .showValues(true);
+
+              chart.yAxis
+                .tickFormat(d3.format(',.0f'));
+
+              chart.valueFormat(d3.format(',.0f'));
+
+              d3.select(element[0])
+                .datum(data)
+                .transition().duration(500)
+                .call(chart);
+
+              nv.utils.windowResize(chart.update);
+
+              return chart;
+            });
+          });
         }
       }
     });
