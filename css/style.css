@@ -254,9 +254,7 @@ td { vertical-align: top; }
    
    /* END OF CRU SPECIFIC STYLING ===== */
    
-   
-   
-   
+        
 table.table th, table.table td {
 	text-align: right;
 }
@@ -264,7 +262,6 @@ table.table th, table.table td {
 .table-hover tbody tr:hover th {
   background-color: #f5f5f5 !important;
 }
-
 .header_one {
 	color: #1787aa !important; border-bottom: 7px solid #1787aa; text-align: left !important;
 }
@@ -301,12 +298,33 @@ table.table tr.ascending th[data-ng-click].sorting {
 	cursor: pointer;
 }
 
-svg#support-distribution,
-svg#multiple-single,
-svg#giving-range,
-svg#giving-frequency {
-    height: 500px;
+
+.table tbody tr.new-donor td {
+  background-color: #dff0d8;
 }
+/*
+.table tbody tr.warning td {
+  background-color: #fcf8e3;
+}
+*/
+
+.table tbody tr.top-fifty td {
+  background-color: #bae1fb; 
+}
+
+.table-hover tbody tr.new-donor:hover td {
+  background-color: #d0e9c6 !important;
+}
+
+/*
+.table-hover tbody tr.warning:hover td {
+  background-color: #faf2cc !important;
+}
+*/
+
+.table-hover tbody tr.top-fifty:hover td {
+  background-color: #b3d6ed !important;
+} 
 
 /*
   For bar charts.
@@ -317,6 +335,10 @@ svg#giving-frequency {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
+}
+
+.bar {
+    fill: steelblue;
 }
 
 .x.axis path {
