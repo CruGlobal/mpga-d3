@@ -103,8 +103,7 @@
           scope.$watch(function() {
             return angular.toJson(scope.totalIncome + scope.totalExpenses);
           }, function(newInput, oldInput) {
-            if(!_.isNumber(scope.totalIncome)
-              || !_.isNumber(scope.totalExpenses)) {
+            if(!_.isNumber(scope.totalIncome) || !_.isNumber(scope.totalExpenses)) {
               return;
             }
 
@@ -121,6 +120,74 @@
                     value : scope.totalExpenses
                   }
                 ]
+              }
+            ];
+
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                .x(function(d) { return d.label })
+                .y(function(d) { return d.value })
+                .tooltips(false)
+                .showValues(true);
+
+              chart.yAxis
+                .tickFormat(d3.format(',.0f'));
+
+              chart.valueFormat(d3.format(',.0f'));
+
+              d3.select(element[0])
+                .datum(data)
+                .transition().duration(500)
+                .call(chart);
+
+              nv.utils.windowResize(chart.update);
+
+              return chart;
+            });
+          });
+        }
+      }
+    }).
+    directive('incomeExpensesByMonth',function () {
+      return {
+        scope:{
+          income:'=',
+          expenses:'='
+        },
+        link:function (scope, element, attrs) {
+          scope.$watch(function() {
+            return angular.toJson(scope.income + scope.expenses);
+          }, function(newInput, oldInput) {
+            if(!_.isArray(scope.income) || _.size(scope.income) == 0
+              || !_.isArray(scope.expenses) || _.size(scope.expenses) == 0) {
+
+              return;
+            }
+
+            var months = _.map(_.range(12), function (monthsToAdd) {
+              var month = moment().subtract('years', 1).add('months', monthsToAdd);
+              return month.format('YYYY-MM');
+            });
+
+            var incomeByMonth = _.map(months, function(month) {
+              var thismonth = _.filter(scope.income, function(monthDatum) {
+                return monthDatum.month === month;
+              });
+              console.log(thismonth);
+              return {
+                label:month,
+                value:0
+              }
+            });
+              //map over the months
+              // for each month, extract that month from the income data
+              // sum it up
+              // return label/value pair
+
+            var data = [
+              {
+                key : 'Income/Expenses',
+                values : incomeByMonth
               }
             ];
 
