@@ -46,26 +46,6 @@
   </tr>
   </tfoot>
 </table>
-<p>
-  single vs multiple gifts pie chart
-</p>
+<svg id="multiple-single" data-nv-piechart data-input="multipleSingleData"></svg>
 
-<table class="table table-striped">
-  <tbody>
-  <tr>
-    <td>New Partners</td>
-    <td>{{partnersStatus.newPartners}}</td>
-  </tr>
-  <tr>
-    <td>Current Partners</td>
-    <td>{{partnersStatus.currentPartners}}</td>
-  </tr>
-  <tr>
-    <td>Lost Partners</td>
-    <td>{{partnersStatus.lostPartners}}</td>
-  </tr>
-  </tbody>
-</table>
-<p>
-  current vs new vs lost partners
-</p>
+<svg id="multiple-single" data-nv-barchart data-input="newCurrentLostData"></svg>

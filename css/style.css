@@ -264,6 +264,7 @@ table.table th, table.table td {
 .table-hover tbody tr:hover th {
   background-color: #f5f5f5 !important;
 }
+
 .header_one {
 	color: #1787aa !important; border-bottom: 7px solid #1787aa; text-align: left !important;
 }
@@ -300,6 +301,13 @@ table.table tr.ascending th[data-ng-click].sorting {
 	cursor: pointer;
 }
 
+svg#support-distribution,
+svg#multiple-single,
+svg#giving-range,
+svg#giving-frequency {
+    height: 500px;
+}
+
 /*
   For bar charts.
   NOTE: This is SVG styling
@@ -309,10 +317,6 @@ table.table tr.ascending th[data-ng-click].sorting {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
-}
-
-.bar {
-    fill: steelblue;
 }
 
 .x.axis path {
