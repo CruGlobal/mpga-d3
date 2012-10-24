@@ -52,6 +52,8 @@
                 })
                 .showLabels(true);
 
+              chart.valueFormat(d3.format(',.0f'));
+
               d3.select(element[0])
                 .datum(scope.input)
                 .transition().duration(1200)
