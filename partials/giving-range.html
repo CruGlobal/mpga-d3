@@ -25,12 +25,12 @@
     
     <td>{{currentPartners | rangeBandPass:range | size}}</td>
     <td>{{currentPartners | rangeBandPass:range | countPercentage:totalCount | number:1}}%</td>
-    <td>{{currentPartners | rangeBandPass:range | amount | currency}}</td>
+    <td>{{currentPartners | rangeBandPass:range | monthlyAmount | currency}}</td>
     <td>{{currentPartners | rangeBandPass:range | amountPercentage:totalAmount | number:1}}%</td>
 
     <td>{{currentPartners | rangeHighPass:range | size}}</td>
     <td>{{currentPartners | rangeHighPass:range | countPercentage:totalCount | number:1}}%</td>
-    <td>{{currentPartners | rangeHighPass:range | amount | currency}}</td>
+    <td>{{currentPartners | rangeHighPass:range | monthlyAmount | currency}}</td>
     <td>{{currentPartners | rangeHighPass:range | amountPercentage:totalAmount | number:1}}%</td>
   </tr>
   </tbody>
