@@ -15,7 +15,7 @@
       scope.active[column] = 'sorting'; //CSS class name
     };
 
-    var partners = Partners.query(function () {
+    Partners.fetch(scope).then(function (partners) {
       scope.partners = _.reject(partners, scope.isLostPartner);
 
       _.mixin({
