@@ -43,6 +43,13 @@
               var chart = nv.models.pieChart()
                 .x(function(d) { return d.label })
                 .y(function(d) { return d.value })
+                .tooltips(true)
+                .tooltipContent(function(key, y, e, graph) {
+                  return '<div class="pie-tooltip">' +
+                    '<span class="pie-label">' + key + '</span>' +
+                    '<span class="pie-value">' + y + '</span> ' +
+                    '</div>';
+                })
                 .showLabels(true);
 
               d3.select(element[0])
