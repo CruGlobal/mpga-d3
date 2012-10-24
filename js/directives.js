@@ -79,6 +79,8 @@
 
               chart.valueFormat(d3.format(',.0f'));
 
+              chart.color(['#1f77b4', '#aec7e8']);
+
               d3.select(element[0])
                 .datum(scope.input)
                 .transition().duration(500)
