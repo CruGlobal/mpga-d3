@@ -166,28 +166,36 @@
 
             var months = _.map(_.range(12), function (monthsToAdd) {
               var month = moment().subtract('years', 1).add('months', monthsToAdd);
-              return month.format('YYYY-MM');
+              return month;
             });
 
-            var incomeByMonth = _.map(months, function(month) {
-              var thismonth = _.filter(scope.income, function(monthDatum) {
-                return monthDatum.month === month;
+            var transformAndSum = function(incomeOrExpenses, sign) {
+              return _.map(months, function(month) {
+                return {
+                  label:month.format('MMM'),
+                  value:_.chain(_.filter(incomeOrExpenses, function(monthDatum) {
+                    return monthDatum.month === month.format('YYYY-MM');
+                  })).
+                    map(function (monthDatum) {
+                      return _.chain(monthDatum.transactionSummaries).
+                        pluck('total').
+                        value();
+                    }).
+                    flatten().
+                    reduce(function (a, b) {
+                      return a + b;
+                    }, 0).
+                    value() * sign
+                }
               });
-              console.log(thismonth);
-              return {
-                label:month,
-                value:0
-              }
-            });
-              //map over the months
-              // for each month, extract that month from the income data
-              // sum it up
-              // return label/value pair
+            };
+            var incomeByMonth = transformAndSum(scope.income, 1);
+            var expensesByMonth = transformAndSum(scope.expenses, -1);
 
             var data = [
               {
                 key : 'Income/Expenses',
-                values : incomeByMonth
+                values :_.flatten(_.zip(incomeByMonth, expensesByMonth))
               }
             ];
 
@@ -196,12 +204,17 @@
                 .x(function(d) { return d.label })
                 .y(function(d) { return d.value })
                 .tooltips(false)
+                .staggerLabels(false)
                 .showValues(true);
 
               chart.yAxis
                 .tickFormat(d3.format(',.0f'));
 
               chart.valueFormat(d3.format(',.0f'));
+
+              chart.color(function(d, i) {
+                return i % 2 == 0 ? 'lightGreen' : 'lightPink';
+              });
 
               d3.select(element[0])
                 .datum(data)

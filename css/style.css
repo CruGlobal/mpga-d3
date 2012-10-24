@@ -345,6 +345,18 @@ table.table tr.ascending th[data-ng-click].sorting {
     display: none;
 }
 
+/* I added each of these explicitly to help with styling later, because they need some styling! */
+#giving-range,
+#giving-frequency,
+#support-distribution,
+#multiple-single,
+#new-current-lost,
+#total-income-expenses,
+#expenses-pie-chart,
+#income-expenses-by-month {
+    height: 500px;
+}
+
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
    ========================================================================== */
