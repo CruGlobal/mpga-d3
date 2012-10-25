@@ -3,7 +3,7 @@
 (function () {
   /* Services */
   angular.module('mpgaServices', ['ngResource']).
-    service('Partners',['EasyXdm', function (EasyXdm) {
+    service('Partners', ['EasyXdm', function (EasyXdm) {
 		return {
 			fetch: function(scope)
 			{
@@ -15,24 +15,37 @@
 			}
 		}
 	}]).
-    service('Expenses',function ($resource) {
-      return $resource('example-mpga-expense-data.json');
-    }).
+    service('Expenses', ['EasyXdm', function (EasyXdm) {
+        return {
+            fetch: function(scope)
+            {
+                scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
+
+                return scope.expenses=scope.employeeId.then(function(employeeId){
+                    return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+                });
+            }
+        }
+
+    }]).
     service('Income', ['EasyXdm', function (EasyXdm) {
-      // return $resource('example-mpga-income-data.json');
-		// return {
-		// 			fetch: function(scope)
-		// 			{
-		// 				return EasyXdm.fetch(scope, )
-		// 			}
-		// 		}
+      return {
+          fetch: function(scope)
+          {
+              scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
+
+              return scope.expenses=scope.employeeId.then(function(employeeId){
+                  return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=income&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+              });
+          }
+      }
     }]).
 	service('EasyXdm', ['$q', function($q){
 		return {
 			fetch: function(scope, pathAndQueryString){
 
-				//var schemeHostAndPort = 'http://localhost:8680';
-				var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
+				var schemeHostAndPort = 'http://localhost:8680';
+				//var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
 				// var url = schemeHostAndPort + '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129&donorLastGiftDateLowerBound=2009-10-01';
 				var url = schemeHostAndPort + pathAndQueryString;
 				var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
@@ -49,7 +62,7 @@
 
 				xhr.request({
 				    url: url,
-				    method: "GET",
+				    method: "GET"
 				}, function(response) {
 		//		    alert(response.status);
 		//		    alert(response.data);
@@ -64,10 +77,18 @@
 
 							var data = response.data;
 							console.log("got back data")
-							var jsonObject = angular.fromJson(data);
-							console.log("parsed data")
-							console.log(jsonObject)
-					        deferred.resolve(jsonObject);
+                            var contentType = response.headers["Content-Type"];
+                            console.log("content type: " + contentType);
+                            var resolution;
+                            if (contentType == 'plain/text')
+                                resolution = data;
+                            else
+                            {
+                                resolution = angular.fromJson(data);
+                                console.log("parsed data")
+                            }
+                            console.log(resolution)
+                            deferred.resolve(resolution);
 				        }
 				        else
 				        {

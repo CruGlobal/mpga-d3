@@ -252,7 +252,8 @@
     }
 
     scope.income = [];
-    var income = Income.query(function () {
+
+    Income.fetch(scope).then(function (income) {
       scope.income = income;
 
       scope.incomeDescriptions = pullOutMatchingDescriptions(income, _.identity);
@@ -261,7 +262,9 @@
     });
 
     scope.expenses = [];
-    var expenses = Expenses.query(function () {
+
+
+    Expenses.fetch(scope).then(function (expenses) {
       scope.expenses = expenses;
 
       //ministry is category === reimbursement
