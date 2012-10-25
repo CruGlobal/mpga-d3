@@ -12,8 +12,8 @@
   <tr data-ng-repeat="partner in lostPartners | orderBy:sortingColumn:reverse">
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
-    <td>{{partner.firstTransactionDate | date:'MM/dd/yy'}}</td>
-    <td>{{partner.lastTransactionDate | date:'MM/dd/yy'}}</td>
+    <td>{{partner.firstTransactionDate | moment:'MM/DD/YY'}}</td>
+    <td>{{partner.lastTransactionDate | moment:'MM/DD/YY'}}</td>
     <td>{{partner.totalTransactionAmount | currency}}</td>
   </tr>
   </tbody>
