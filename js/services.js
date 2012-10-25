@@ -107,18 +107,11 @@
     return {
       fetch: function(scope)
       {
-        if (mockServiceData)
-        {
-            var deferred = q.defer();
+        scope.designation=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/designation');
 
-            resource('testData.json').query(function(partners) {
-                deferred.resolve(partners);
-            });
-
-            return deferred.promise;
-        }
-        else
-          return EasyXdm.fetch(scope, '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129');
+        return scope.designation.then(function(designation){
+          return EasyXdm.fetch(scope, '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=' + designation);
+        });
       }
     }
   }]).
@@ -128,7 +121,7 @@
       {
         scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
 
-        return scope.expenses=scope.employeeId.then(function(employeeId){
+        return scope.employeeId.then(function(employeeId){
           return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
         });
       }
@@ -140,7 +133,7 @@
       {
         scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
 
-        return scope.expenses=scope.employeeId.then(function(employeeId){
+        return scope.employeeId.then(function(employeeId){
           return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=income&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
         });
       }
