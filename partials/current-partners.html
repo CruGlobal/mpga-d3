@@ -16,10 +16,10 @@
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
     <td>{{partner.twelveMonthTotalAmount | currency}}</td>
-    <td>{{partner.twelveMonthTotalCount}}</td>
+    <td>{{partner.twelveMonthTotalCount | number:0}}</td>
     <td>{{partner.twelveMonthTotalAmount / 12 | currency}}</td>
-    <td>{{partner.firstTransactionDate | date:'MM/dd/yy'}}</td>
-    <td>{{partner.lastTransactionDate | date:'MM/dd/yy'}}</td>
+    <td>{{partner.firstTransactionDate | moment:'MM/DD/YY'}}</td>
+    <td>{{partner.lastTransactionDate | moment:'MM/DD/YY'}}</td>
     <td>{{partner.totalTransactionAmount | currency}}</td>
   </tr>
   </tbody>
