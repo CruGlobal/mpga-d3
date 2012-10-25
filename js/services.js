@@ -44,9 +44,9 @@
 		return {
 			fetch: function(scope, pathAndQueryString){
 
-				var schemeHostAndPort = 'http://localhost:8680';
-				//var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
-				// var url = schemeHostAndPort + '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129&donorLastGiftDateLowerBound=2009-10-01';
+//				var schemeHostAndPort = 'http://localhost:8680';
+				var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
+//				var url = schemeHostAndPort + '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129&donorLastGiftDateLowerBound=2009-10-01';
 				var url = schemeHostAndPort + pathAndQueryString;
 				var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
 
