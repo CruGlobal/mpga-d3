@@ -46,8 +46,7 @@
                 .tooltips(true)
                 .tooltipContent(function(key, y, e, graph) {
                   return '<div class="pie-tooltip">' +
-                    '<span class="pie-label">' + key + '</span>' +
-                    '<span class="pie-value">' + y + '</span> ' +
+                    '<span class="pie-value">' + y + ' Partners' + '</span> ' +
                     '</div>';
                 })
                 .showLabels(true);
