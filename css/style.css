@@ -302,19 +302,20 @@ table.table tr.ascending th[data-ng-click].sorting {
 .table tbody tr.new-donor td {
   background-color: #dff0d8;
 }
+.table-hover tbody tr.new-donor:hover td {
+  background-color: #d0e9c6 !important;
+}
+.table tbody tr.top-fifty td {
+  background-color: #bae1fb; 
+}
+.table-hover tbody tr.top-fifty:hover td {
+  background-color: #b3d6ed !important;
+}
 /*
 .table tbody tr.warning td {
   background-color: #fcf8e3;
 }
 */
-
-.table tbody tr.top-fifty td {
-  background-color: #bae1fb; 
-}
-
-.table-hover tbody tr.new-donor:hover td {
-  background-color: #d0e9c6 !important;
-}
 
 /*
 .table-hover tbody tr.warning:hover td {
@@ -322,9 +323,7 @@ table.table tr.ascending th[data-ng-click].sorting {
 }
 */
 
-.table-hover tbody tr.top-fifty:hover td {
-  background-color: #b3d6ed !important;
-} 
+ 
 
 /*
   For bar charts.
