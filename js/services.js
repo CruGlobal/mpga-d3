@@ -17,19 +17,31 @@
       }
     }
   }]).
-    service('Expenses', ['EasyXdm', '$resource', function (EasyXdm, resource) {
+    service('Expenses', ['EasyXdm', '$resource', '$q', function (EasyXdm, resource, q) {
     return {
       fetch: function(scope)
       {
-        return resource('example-mpga-expense-data.json').query();
+        var deferred = q.defer();
+
+        resource('example-mpga-expense-data.json').query(function(expenses) {
+          deferred.resolve(expenses);
+        });
+
+        return deferred.promise;
       }
     }
   }]).
-    service('Income', ['EasyXdm', '$resource', function (EasyXdm, resource) {
+    service('Income', ['EasyXdm', '$resource', '$q', function (EasyXdm, resource, q) {
     return {
       fetch: function(scope)
       {
-        return resource('example-mpga-income-data.json').query();
+        var deferred = q.defer();
+
+        resource('example-mpga-income-data.json').query(function(income) {
+          deferred.resolve(income);
+        });
+
+        return deferred.promise;
       }
     }
   }]).

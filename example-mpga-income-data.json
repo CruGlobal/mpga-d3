@@ -3,18 +3,18 @@
       "month":"2012-03",
       "transactionSummaries":[
          {
-            "Description":"Contributions",
-            "total":6047,
+            "description":"Contributions",
+            "amount":6047,
             "category":"contributions"
          },
          {
-            "Description":"19148 unk stock donation",
-            "total":17,
+            "description":"19148 unk stock donation",
+            "amount":17,
             "category":"non-cash"
          },
          {
-            "Description":"Adj: 977549/gxbmu Jones",
-            "total":25,
+            "description":"Adj: 977549/gxbmu Jones",
+            "amount":25,
             "category":"other"
          }
       ]
@@ -23,8 +23,8 @@
       "month":"2012-04",
       "transactionSummaries":[
          {
-            "Description":"Contributions",
-            "total":4230,
+            "description":"Contributions",
+            "amount":4230,
             "category":"contributions"
          }
       ]
