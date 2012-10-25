@@ -26,12 +26,15 @@
 
       scope.medianYearlyAmount = _.chain(scope.partners)
         .pluck('twelveMonthTotalAmount')
+        .map(function(stringOfAmount){
+          return parseFloat(stringOfAmount);
+        })
         .sortBy(_.identity)
         .median()
         .value();
 
       var upperHalf = function(partner) {
-        return partner.twelveMonthTotalAmount > scope.medianYearlyAmount;
+        return parseFloat(partner.twelveMonthTotalAmount) > scope.medianYearlyAmount;
       };
 
       scope.partnersData = [
@@ -74,7 +77,7 @@
     scope.totalCurrentPartners = [];
     scope.newCurrentLostData = [];
 
-    var partners = Partners.query(function () {
+    Partners.fetch(scope).then(function (partners) {
       var lostPartners = _.filter(partners, scope.isLostPartner);
 
       var newPartners = _.filter(partners, function (partnerRow) {
@@ -94,23 +97,23 @@
       ];
 
       scope.multipleGivers = _.filter(partners, function (partnerRow) {
-        return partnerRow.twelveMonthTotalCount > 1;
+        return parseInt(partnerRow.twelveMonthTotalCount) > 1;
       });
       scope.singleGivers = _.filter(partners, function (partnerRow) {
-        return partnerRow.twelveMonthTotalCount == 1;
+        return parseInt(partnerRow.twelveMonthTotalCount) == 1;
       });
       scope.totalCurrentPartners = _.union(scope.multipleGivers, scope.singleGivers);
 
       scope.multipleGiversGiftCount = _.chain(scope.multipleGivers).
         pluck('twelveMonthTotalCount').
         reduce(function (a, b) {
-          return a + b;
+          return parseInt(a) + parseInt(b);
         }).
         value();
       scope.singleGiversGiftCount = _.chain(scope.singleGivers).
         pluck('twelveMonthTotalCount').
         reduce(function (a, b) {
-          return a + b;
+          return parseInt(a) + parseInt(b);
         }).
         value();
       scope.totalGiftCount = scope.multipleGiversGiftCount + scope.singleGiversGiftCount;
@@ -151,7 +154,7 @@
 
     var amount = filter('amount');
     var rangeBandPass = filter('rangeBandPass');
-    var partners = Partners.query(function () {
+    Partners.fetch(scope).then(function (partners) {
       scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
       scope.totalCount = _.size(scope.currentPartners);
@@ -184,7 +187,7 @@
 
     var amount = filter('amount');
     var frequencyBandPass = filter('frequencyBandPass');
-    var partners = Partners.query(function () {
+    Partners.fetch(scope).then(function (partners) {
       scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
       scope.totalCount = _.size(scope.currentPartners);
