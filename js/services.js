@@ -7,24 +7,24 @@
   /* Services */
   var mpgaServicesModule = angular.module('mpgaServices', ['ngResource']).
     service('EasyXdm', ['$q', function($q){
-        return {
+
+//    var schemeHostAndPort = 'http://localhost:8680';
+      var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
+      var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
+
+      var xhr = new easyXDM.Rpc({
+          remote: corsUrl
+      }, {
+          remote: {
+              request: {} // request is exposed by /cors/
+          }
+      });
+
+      return {
             fetch: function(scope, pathAndQueryString){
-
-//				var schemeHostAndPort = 'http://localhost:8680';
-                var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
-//				var url = schemeHostAndPort + '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129&donorLastGiftDateLowerBound=2009-10-01';
-                var url = schemeHostAndPort + pathAndQueryString;
-                var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
-
-                var xhr = new easyXDM.Rpc({
-                    remote: corsUrl
-                }, {
-                    remote: {
-                        request: {} // request is exposed by /cors/
-                    }
-                });
-
                 var deferred = $q.defer();
+
+                var url = schemeHostAndPort + pathAndQueryString;
 
                 xhr.request({
                     url: url,
