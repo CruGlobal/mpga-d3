@@ -228,7 +228,7 @@
         map(function (monthDatum) {
           return _.chain(monthDatum.transactionSummaries).
             filter(predicate).
-            pluck('Description').
+            pluck('description').
             value();
         }).
         flatten().
@@ -241,7 +241,7 @@
         map(function (monthDatum) {
           return _.chain(monthDatum.transactionSummaries).
             filter(predicate).
-            pluck('total').
+            pluck('amount').
             value();
         }).
         flatten().

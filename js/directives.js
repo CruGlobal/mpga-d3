@@ -189,7 +189,7 @@
                   })).
                     map(function (monthDatum) {
                       return _.chain(monthDatum.transactionSummaries).
-                        pluck('total').
+                        pluck('amount').
                         value();
                     }).
                     flatten().
