@@ -18,10 +18,10 @@
   <tr data-ng-repeat="description in incomeDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-    {{ income | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
+    {{ income | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
     </td>
     <td>{{ income  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ income  | matchDescriptionAndSum:description }}</td>
+    <td>{{ income  | matchDescriptionAndSum:description | number:0 }}</td>
   </tr>
   </tbody>
 </table>
@@ -48,10 +48,10 @@
   <tr data-ng-repeat="description in ministryDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
+      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
     </td>
     <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ expenses  | matchDescriptionAndSum:description }}</td>
+    <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
   </tr>
   </tbody>
 </table>
@@ -78,10 +78,10 @@
   <tr data-ng-repeat="description in miscDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
+      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
     </td>
     <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ expenses  | matchDescriptionAndSum:description }}</td>
+    <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
   </tr>
   </tbody>
 </table>
@@ -108,10 +108,10 @@
   <tr data-ng-repeat="description in benefitsDescriptions">
     <td>{{description}}</td>
     <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description }}
+      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0}}
     </td>
     <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ expenses  | matchDescriptionAndSum:description }}</td>
+    <td>{{ expenses  | matchDescriptionAndSum:description | number:0}}</td>
   </tr>
   </tbody>
 </table>
