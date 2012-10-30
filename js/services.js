@@ -122,7 +122,7 @@
         scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
 
         return scope.employeeId.then(function(employeeId){
-          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
         });
       }
     }
@@ -134,7 +134,7 @@
         scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
 
         return scope.employeeId.then(function(employeeId){
-          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=income&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=income&employeeId=' + employeeId);
         });
       }
     }
