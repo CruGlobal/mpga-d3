@@ -49,7 +49,7 @@
                     '<span class="pie-value">' + y + ' Partners' + '</span> ' +
                     '</div>';
                 })
-                .showLabels(true);
+                .showLabels(false);
 
               chart.valueFormat(d3.format(',.0f'));
 
