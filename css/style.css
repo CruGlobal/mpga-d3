@@ -267,6 +267,12 @@ table.table th, table.table td {
 }
 .header_two {
 	color: #3eb1c8 !important; border-bottom: 7px solid #3eb1c8; text-align: left !important;
+}
+.header_one_color {
+	color: #1787aa !important;
+}
+.header_two_color {
+	color: #3eb1c8 !important;
 }   
 table.table th {
     color: rgb(212, 159, 6); font-weight: normal;
