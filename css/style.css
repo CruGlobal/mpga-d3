@@ -311,6 +311,9 @@ table.table tr.ascending th[data-ng-click].sorting {
 .table-hover tbody tr.top-fifty:hover td {
   background-color: #b3d6ed !important;
 }
+.table tfoot tr.total td {
+    background-color: #bae1fb !important;
+}
 /*
 .table tbody tr.warning td {
   background-color: #fcf8e3;
