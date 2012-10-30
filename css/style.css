@@ -323,6 +323,10 @@ table.table tr.ascending th[data-ng-click].sorting {
 }
 */
 
+.pie-value {
+	font-size: 1.2em;
+}
+
  
 
 /*
