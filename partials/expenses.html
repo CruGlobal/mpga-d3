@@ -28,7 +28,7 @@
 
 <br>
 
-<h2>Ministry</h2>
+<h2>Ministry Expenses</h2>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -54,6 +54,35 @@
     <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
   </tr>
   </tbody>
+</table>
+
+<br>
+<h2>Healthcare Expenses</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <th data-ng-repeat="month in months">{{month.shortName}}</th>
+        <th>Average</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="description in healthcareDescriptions">
+        <td>{{description}}</td>
+        <td data-ng-repeat="month in months">
+            {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
+        </td>
+        <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
+        <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
+    </tr>
+    </tbody>
 </table>
 
 <br>
