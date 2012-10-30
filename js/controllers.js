@@ -227,6 +227,9 @@
     });
 
     var pullOutMatchingDescriptions = function (expenseItems, predicate) {
+      if(_.isUndefined(predicate))
+        predicate = _.identity
+
       return _.chain(expenseItems).
         map(function (monthDatum) {
           return _.chain(monthDatum.transactionSummaries).
@@ -259,7 +262,10 @@
     Income.fetch(scope).then(function (income) {
       scope.income = income;
 
-      scope.incomeDescriptions = pullOutMatchingDescriptions(income, _.identity);
+      var allIncomeDescriptions = pullOutMatchingDescriptions(income);
+      //Need to move Contributions to the beginning, hence the union
+      var cont = 'Contributions';
+      scope.incomeDescriptions = _.union([cont], _.without(allIncomeDescriptions, cont));
 
       scope.totalIncome = sumUpMonthData(income, _.identity);
     });
