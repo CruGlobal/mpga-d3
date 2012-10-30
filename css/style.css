@@ -348,6 +348,14 @@ table.table tr.ascending th[data-ng-click].sorting {
     display: none;
 }
 
+.badge-income {
+    background: lightGreen;
+}
+
+.badge-expenses {
+    background: lightPink;
+}
+
 /* I added each of these explicitly to help with styling later, because they need some styling! */
 #giving-range,
 #giving-frequency,
