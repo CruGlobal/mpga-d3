@@ -25,12 +25,12 @@
          {
             "description":"Child EOBs-Apply To Husb/widow",
             "amount":10,
-            "category":"reimbursement"
+            "category":"healthcare-reimbursement"
          },
          {
             "description":"Ministry Auto Mileage",
             "amount":120,
-            "category":"reimbursement"
+            "category":"ministry-reimbursement"
          },
          {
             "description":"Charge(s) for Credit Card gift(s)",

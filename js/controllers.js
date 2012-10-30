@@ -270,13 +270,20 @@
     Expenses.fetch(scope).then(function (expenses) {
       scope.expenses = expenses;
 
-      //ministry is category === reimbursement
+      //ministry is category === ministry-reimbursement
       var ministryPredicate = function (transactionSummary) {
-        return transactionSummary.category === 'reimbursement';
+        return transactionSummary.category === 'ministry-reimbursement';
       };
       scope.ministryDescriptions = pullOutMatchingDescriptions(expenses, ministryPredicate);
 
-      //last table is `category in (benefits, salary, contributions-assessment)`
+      //ministry is category === healthcare-reimbursement
+      var healthcareReimbursementPredicate = function (transactionSummary) {
+        return transactionSummary.category === 'healthcare-reimbursement';
+      };
+      scope.healthcareDescriptions = pullOutMatchingDescriptions(expenses, healthcareReimbursementPredicate);
+
+
+        //last table is `category in (benefits, salary, contributions-assessment)`
       var beneSalCont = ['benefits', 'salary', 'contributions-assessment'];
       var beneSalContPredicate = function (transactionSummary) {
         return _.contains(beneSalCont, transactionSummary.category);
@@ -285,7 +292,9 @@
 
       //misc has everything else
       var miscPredicate = function (transactionSummary) {
-        return !ministryPredicate(transactionSummary) && !beneSalContPredicate(transactionSummary);
+        return !ministryPredicate(transactionSummary) &&
+          !beneSalContPredicate(transactionSummary) &&
+          !healthcareReimbursementPredicate(transactionSummary);
       };
       scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
 
@@ -320,6 +329,10 @@
             {
               label:'Ministry Expenses',
               value:sumUpMonthData(expenses, ministryPredicate)
+            },
+            {
+              label:'Healthcare Expenses',
+              value:sumUpMonthData(expenses, healthcareReimbursementPredicate)
             }
           ]
         }
