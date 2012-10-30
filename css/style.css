@@ -266,13 +266,13 @@ table.table th, table.table td {
 	color: #1787aa !important; border-bottom: 7px solid #1787aa; text-align: left !important;
 }
 .header_two {
-	color: #3eb1c8 !important; border-bottom: 7px solid #3eb1c8; text-align: left !important;
+	color: #D66800 !important; border-bottom: 7px solid #D66800; text-align: left !important;
 }
 .header_one_color {
 	color: #1787aa !important;
 }
 .header_two_color {
-	color: #3eb1c8 !important;
+	color: #D66800 !important;
 }   
 table.table th {
     color: rgb(212, 159, 6); font-weight: normal;
