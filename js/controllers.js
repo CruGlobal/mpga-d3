@@ -222,7 +222,8 @@
         shortName : month.format('MMM'),
         yearMonthKey : month.format('YYYY-MM'),
         year : displayYear ? month.format('YYYY') : '',
-        style : month.year() === moment().year() ? 'header_two' : 'header_one'
+        style : month.year() === moment().year() ? 'header_two' : 'header_one',
+        styleColor : month.year() === moment().year() ? 'header_two_color' : 'header_one_color'
       };
     });
 
