@@ -317,6 +317,9 @@ table.table tr.ascending th[data-ng-click].sorting {
 .table-hover tbody tr.top-fifty:hover td {
   background-color: #b3d6ed !important;
 }
+.table tfoot tr.total td {
+    background-color: #bae1fb !important;
+}
 /*
 .table tbody tr.warning td {
   background-color: #fcf8e3;
@@ -352,6 +355,14 @@ table.table tr.ascending th[data-ng-click].sorting {
 
 .x.axis path {
     display: none;
+}
+
+.badge-income {
+    background: lightGreen;
+}
+
+.badge-expenses {
+    background: lightPink;
 }
 
 /* I added each of these explicitly to help with styling later, because they need some styling! */

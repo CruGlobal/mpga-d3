@@ -34,7 +34,7 @@
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
 <body data-ng-app="mpga">
-  <!-- Prompt IE 8 users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!-- Prompt IE 7 users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
   <h1 class="pagetitle">Ministry Partner Giving Analysis</h1>
@@ -49,7 +49,7 @@
         <li data-ng-class="navClass('statistical-analysis')"><a href="#/statistical-analysis">Statistical Analysis</a></li>
         <li data-ng-class="navClass('giving-range')"><a href="#/giving-range">Giving Range Analysis</a></li>
         <li data-ng-class="navClass('giving-frequency')"><a href="#/giving-frequency">Giving Frequency Analysis</a></li>
-        <li data-ng-class="navClass('expenses')"><a href="#/expenses">Expenses</a></li>
+        <li data-ng-class="navClass('income-expenses')"><a href="#/income-expenses">Income/Expenses</a></li>
       </ul>
     </div>
   </div>
@@ -61,12 +61,12 @@
 	    easyXDM.DomHelper.requiresJSON("js/libs/json2.js");
   </script>
 
-  <script src="js/libs/angular.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.2/angular.min.js"></script>
   <script src="js/libs/angular-resource.js"></script>
-  <script src="js/libs/d3.v2.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
   <script src="js/libs/nv.d3.js"></script>
-  <script src="js/libs/underscore.js"></script>
-  <script src="js/libs/moment.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"></script>
 
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>

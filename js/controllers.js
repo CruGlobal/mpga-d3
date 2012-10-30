@@ -207,7 +207,7 @@
       ];
     });
   }]).
-    controller('ExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
+    controller('IncomeExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
     scope.months = _.map(_.range(12), function (monthsToAdd) {
       var month = moment().subtract('years', 1).add('months', monthsToAdd);
 
@@ -227,6 +227,9 @@
     });
 
     var pullOutMatchingDescriptions = function (expenseItems, predicate) {
+      if(_.isUndefined(predicate))
+        predicate = _.identity;
+
       return _.chain(expenseItems).
         map(function (monthDatum) {
           return _.chain(monthDatum.transactionSummaries).
@@ -252,14 +255,17 @@
           return a + b;
         }, 0).
         value();
-    }
+    };
 
     scope.income = [];
 
     Income.fetch(scope).then(function (income) {
       scope.income = income;
 
-      scope.incomeDescriptions = pullOutMatchingDescriptions(income, _.identity);
+      var allIncomeDescriptions = pullOutMatchingDescriptions(income);
+      //Need to move Contributions to the beginning, hence the union
+      var cont = 'Contributions';
+      scope.incomeDescriptions = _.union([cont], _.without(allIncomeDescriptions, cont));
 
       scope.totalIncome = sumUpMonthData(income, _.identity);
     });
@@ -270,13 +276,20 @@
     Expenses.fetch(scope).then(function (expenses) {
       scope.expenses = expenses;
 
-      //ministry is category === reimbursement
+      //ministry is category === ministry-reimbursement
       var ministryPredicate = function (transactionSummary) {
-        return transactionSummary.category === 'reimbursement';
+        return transactionSummary.category === 'ministry-reimbursement';
       };
       scope.ministryDescriptions = pullOutMatchingDescriptions(expenses, ministryPredicate);
 
-      //last table is `category in (benefits, salary, contributions-assessment)`
+      //ministry is category === healthcare-reimbursement
+      var healthcareReimbursementPredicate = function (transactionSummary) {
+        return transactionSummary.category === 'healthcare-reimbursement';
+      };
+      scope.healthcareDescriptions = pullOutMatchingDescriptions(expenses, healthcareReimbursementPredicate);
+
+
+        //last table is `category in (benefits, salary, contributions-assessment)`
       var beneSalCont = ['benefits', 'salary', 'contributions-assessment'];
       var beneSalContPredicate = function (transactionSummary) {
         return _.contains(beneSalCont, transactionSummary.category);
@@ -285,7 +298,9 @@
 
       //misc has everything else
       var miscPredicate = function (transactionSummary) {
-        return !ministryPredicate(transactionSummary) && !beneSalContPredicate(transactionSummary);
+        return !ministryPredicate(transactionSummary) &&
+          !beneSalContPredicate(transactionSummary) &&
+          !healthcareReimbursementPredicate(transactionSummary);
       };
       scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
 
@@ -320,6 +335,10 @@
             {
               label:'Ministry Expenses',
               value:sumUpMonthData(expenses, ministryPredicate)
+            },
+            {
+              label:'Healthcare Expenses',
+              value:sumUpMonthData(expenses, healthcareReimbursementPredicate)
             }
           ]
         }

@@ -7,24 +7,24 @@
   /* Services */
   var mpgaServicesModule = angular.module('mpgaServices', ['ngResource']).
     service('EasyXdm', ['$q', function($q){
-        return {
+
+//    var schemeHostAndPort = 'http://localhost:8680';
+      var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
+      var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
+
+      var xhr = new easyXDM.Rpc({
+          remote: corsUrl
+      }, {
+          remote: {
+              request: {} // request is exposed by /cors/
+          }
+      });
+
+      return {
             fetch: function(scope, pathAndQueryString){
-
-//				var schemeHostAndPort = 'http://localhost:8680';
-                var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
-//				var url = schemeHostAndPort + '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129&donorLastGiftDateLowerBound=2009-10-01';
-                var url = schemeHostAndPort + pathAndQueryString;
-                var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
-
-                var xhr = new easyXDM.Rpc({
-                    remote: corsUrl
-                }, {
-                    remote: {
-                        request: {} // request is exposed by /cors/
-                    }
-                });
-
                 var deferred = $q.defer();
+
+                var url = schemeHostAndPort + pathAndQueryString;
 
                 xhr.request({
                     url: url,
@@ -107,18 +107,11 @@
     return {
       fetch: function(scope)
       {
-        if (mockServiceData)
-        {
-            var deferred = q.defer();
+        scope.designation=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/designation');
 
-            resource('testData.json').query(function(partners) {
-                deferred.resolve(partners);
-            });
-
-            return deferred.promise;
-        }
-        else
-          return EasyXdm.fetch(scope, '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=0005129');
+        return scope.designation.then(function(designation){
+          return EasyXdm.fetch(scope, '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=' + designation);
+        });
       }
     }
   }]).
@@ -128,8 +121,8 @@
       {
         scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
 
-        return scope.expenses=scope.employeeId.then(function(employeeId){
-          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+        return scope.employeeId.then(function(employeeId){
+          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
         });
       }
     }
@@ -140,8 +133,8 @@
       {
         scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
 
-        return scope.expenses=scope.employeeId.then(function(employeeId){
-          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-08&transactionType=income&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+        return scope.employeeId.then(function(employeeId){
+          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=income&employeeId=' + employeeId);
         });
       }
     }
