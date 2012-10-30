@@ -228,7 +228,7 @@
 
     var pullOutMatchingDescriptions = function (expenseItems, predicate) {
       if(_.isUndefined(predicate))
-        predicate = _.identity
+        predicate = _.identity;
 
       return _.chain(expenseItems).
         map(function (monthDatum) {
@@ -255,7 +255,7 @@
           return a + b;
         }, 0).
         value();
-    }
+    };
 
     scope.income = [];
 
