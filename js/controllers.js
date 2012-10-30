@@ -207,7 +207,7 @@
       ];
     });
   }]).
-    controller('ExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
+    controller('IncomeExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
     scope.months = _.map(_.range(12), function (monthsToAdd) {
       var month = moment().subtract('years', 1).add('months', monthsToAdd);
 
