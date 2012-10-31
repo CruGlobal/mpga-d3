@@ -290,8 +290,8 @@
       scope.healthcareDescriptions = pullOutMatchingDescriptions(expenses, healthcareReimbursementPredicate);
 
 
-        //last table is `category in (benefits, salary, contributions-assessment)`
-      var beneSalCont = ['benefits', 'salary', 'contributions-assessment'];
+        //last table is `category in (benefits, salary, contributions-assessment, additional-salary)`
+      var beneSalCont = ['benefits', 'salary', 'contributions-assessment', 'additional-salary'];
       var beneSalContPredicate = function (transactionSummary) {
         return _.contains(beneSalCont, transactionSummary.category);
       };
@@ -315,6 +315,12 @@
               label:'Salary',
               value: sumUpMonthData(expenses, function (transactionSummary) {
                 return transactionSummary.category === 'salary';
+              })
+            },
+            {
+              label:'Additional Salary',
+              value: sumUpMonthData(expenses, function (transactionSummary) {
+                return transactionSummary.category === 'additional-salary';
               })
             },
             {
