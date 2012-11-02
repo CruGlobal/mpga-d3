@@ -6,7 +6,7 @@
 
   /* Services */
   var mpgaServicesModule = angular.module('mpgaServices', ['ngResource']).
-    service('EasyXdm', ['$q', function($q){
+    service('EasyXdm', ['$q', '$cacheFactory', function($q, $cacheFactory){
 
 //    var schemeHostAndPort = 'http://localhost:8680';
       var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
@@ -20,12 +20,16 @@
           }
       });
 
+      var cache = $cacheFactory('EasyXdm-Cache');
+
       return {
             fetch: function(scope, pathAndQueryString){
-                var deferred = $q.defer();
+              var deferred = $q.defer();
 
-                var url = schemeHostAndPort + pathAndQueryString;
+              var url = schemeHostAndPort + pathAndQueryString;
 
+              if (cache.get(pathAndQueryString) == undefined)
+              {
                 xhr.request({
                     url: url,
                     method: "GET"
@@ -43,6 +47,7 @@
                                 resolution = angular.fromJson(data);
                             }
                             deferred.resolve(resolution);
+                            cache.put(pathAndQueryString, resolution);
                         }
                         else
                         {
@@ -50,6 +55,12 @@
                         }
                     });
                 });
+              }
+              else
+              {
+                var resolution = cache.get(pathAndQueryString);
+                deferred.resolve(resolution);
+              }
 
                 return deferred.promise;
             }
