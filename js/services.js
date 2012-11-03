@@ -117,8 +117,7 @@
                   method:"GET"
                 }, function (response) {
                   if (response.data === "true") {
-                    var retryOnUnauthorized = false;
-                    sendRequestToUrl(retryOnUnauthorized);
+                    sendRequestToUrl(false);
                   }
                   else {
                     alert("It appears you are not logged in to Relay.  Attempting to reload the page...");
