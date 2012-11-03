@@ -85,23 +85,27 @@
                   url:url,
                   method:"GET"
                 }, function (response) {
-                  if (response.status == 200) {
-                    handleSuccessfulResponse(response);
-                  }
-                  else {
-                    //TODO: what to do here?
-                    handleFailedRequest(response);
-                  }
+                  scope.$apply(function() {
+                    if (response.status == 200) {
+                      handleSuccessfulResponse(response);
+                    }
+                    else {
+                      //TODO: what to do here?
+                      handleFailedRequest(response);
+                    }
+                  });
                 }, function (errorPayload){
-                  var message = errorPayload.message;
-                  var response = errorPayload.data;
-                  if (retryOnUnauthorized && response != undefined && response.status == 401) {
-                    handleNotAuthorizedResponse();
-                  }
-                  else
-                  {
-                    handleFailedRequest(response);
-                  }
+                  scope.$apply(function() {
+                    var message = errorPayload.message;
+                    var response = errorPayload.data;
+                    if (retryOnUnauthorized && response != undefined && response.status == 401) {
+                      handleNotAuthorizedResponse();
+                    }
+                    else
+                    {
+                      handleFailedRequest(response);
+                    }
+                  });
                 });
               }
 
