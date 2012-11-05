@@ -8,9 +8,6 @@
   var mpgaServicesModule = angular.module('mpgaServices', ['ngResource']).
     service('EasyXdm', ['$q', '$cacheFactory', function($q, $cacheFactory){
 
-//    var schemeHostAndPort = 'http://localhost:8680';
-      var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
-      var corsUrl = schemeHostAndPort + '/wsapi/easyXDM/cors/';
       function log(something)
       {
         if ( console.log ) {
