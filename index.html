@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/bootstrap-responsive.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
   <link rel="stylesheet" href="css/nv.d3.css">
   
 
@@ -33,13 +34,15 @@
        Create your own custom Modernizr build: www.modernizr.com/download/ -->
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
-<body data-ng-app="mpga">
+<body data-ng-app="mpga" id="mpga">
   <!-- Prompt IE 7 users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-  <h1 class="pagetitle">Ministry Partner Giving Analysis</h1>
-  
-  <br>
+  	<div id="mpga-heading" class="clearfix">
+  		<h1 class="pagetitle">Ministry Partner Giving Analysis</h1>
+  		<span class="goldButton"><a href="javascript:window.print()">Print</a></span>
+  	</div>
+  	<br>
 
   <div class="navbar" data-ng-controller="NavigationController">
     <div class="navbar-inner">
@@ -52,7 +55,7 @@
         <li data-ng-class="navClass('income-expenses')"><a href="#/income-expenses">Income/Expenses</a></li>
       </ul>
     </div>
-  </div>
+  </div>  
 
   <div data-ng-view></div>
 
