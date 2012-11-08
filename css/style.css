@@ -332,10 +332,33 @@ table.table tr.ascending th[data-ng-click].sorting {
 }
 */
 
+.goldButton {
+	padding: 5px 8px; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; color: rgb(255,255,255); background-color: rgb(249,182,37); border-radius: 4px; border: none;
+}
+
+.goldButton:hover {
+	background-color: rgb(222,124,0); text-decoration: none;
+}
+.goldButton a, .goldButton a:hover {
+	color: #FFF; text-decoration: none;
+}
+
+
 .pie-value {
 	font-size: 1.2em;
 }
 
+/** mpga index.html **/
+
+body#mpga div#mpga-heading {
+	display: block;
+}
+body#mpga div#mpga-heading h1.pagetitle {
+	float: left;
+}
+body#mpga div#mpga-heading span {
+	float: right; margin: 15px;
+}
  
 
 /*
@@ -355,6 +378,14 @@ table.table tr.ascending th[data-ng-click].sorting {
 
 .x.axis path {
     display: none;
+}
+
+p#badge {
+	font-size: 14px;
+}
+
+p span.badge {
+	
 }
 
 .badge-income {
