@@ -74,7 +74,13 @@
                 {
                   message = "Request failed; no response given";
                 }
-                deferred.reject(message);
+                var error = {
+                  message: message,
+                  response: response,
+                  url: url
+                };
+
+                deferred.reject(error);
               }
 
               function sendRequestToUrl(retryOnUnauthorized) {
@@ -93,7 +99,6 @@
                   });
                 }, function (errorPayload){
                   scope.$apply(function() {
-                    var message = errorPayload.message;
                     var response = errorPayload.data;
                     if (retryOnUnauthorized && response != undefined && response.status == 401) {
                       handleNotAuthorizedResponse();
@@ -198,35 +203,90 @@
       {
         scope.designation=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/designation');
 
-        return scope.designation.then(function(designation){
+        var partnersPromise = scope.designation.then(function(designation){
           return EasyXdm.fetch(scope, '/wsapi/rest/donors/donorGiftSummariesByMonth?designation=' + designation);
         });
+
+        partnersPromise.then(null, function(error){
+          alert("Sorry, there was an error and your Ministry Partner data could not be retrieved.");
+        });
+
+        return partnersPromise;
       }
     }
   }]).
-    service('Expenses', ['EasyXdm', function (EasyXdm) {
+  service('EmployeeIds', ['EasyXdm', '$q', '$rootScope', function (EasyXdm, $q, $rootScope) {
+    var myEmployeeId = EasyXdm.fetch($rootScope, '/wsapi/rest/authentication/my/employeeId');
+
+    // TODO: is null the best way to represent 'there is no spouse id' ?
+    var mySpouseEmployeeIdOrNull = EasyXdm.fetch($rootScope, '/wsapi/rest/authentication/my/spouse/employeeId').then(
+      function(spouseId){
+        return spouseId;
+      },
+      function(error){
+        if (error.response && error.response.code == 404)
+        {
+          return null;
+        }
+        else
+        {
+          return $q.reject(error);
+        }
+      }
+    );
+
+    var bothIds = $q.all([myEmployeeId, mySpouseEmployeeIdOrNull]).then(
+      function(employeeIds){
+        return _.compact(employeeIds);
+      }
+    );
+
+    $rootScope.employeeId=myEmployeeId;
+    $rootScope.spouseEmployeeId=mySpouseEmployeeIdOrNull;
+
+    return bothIds;
+  }]).
+    service('Expenses', ['EasyXdm', 'EmployeeIds', function (EasyXdm, EmployeeIds) {
     return {
       fetch: function(scope)
       {
-        scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
-
-        return scope.employeeId.then(function(employeeId){
-          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=expense&employeeId=' + employeeId + '&reimbursementDetail=fine&salaryDetail=coarse');
+        var expensesPromise = EmployeeIds.then(function(employeeIds){
+          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?reimbursementDetail=fine&salaryDetail=coarse&transactionType=expense&employeeIds=' + combineEmployeeIdsIntoString(employeeIds));
         });
+        expensesPromise.then(null, function(error){
+          alert("Sorry, there was an error and your Expenses data could not be retrieved.");
+        });
+
+        return expensesPromise;
       }
     }
   }]).
-    service('Income', ['EasyXdm', function (EasyXdm) {
+    service('Income', ['EasyXdm', 'EmployeeIds', function (EasyXdm, EmployeeIds) {
     return {
       fetch: function(scope)
       {
-        scope.employeeId=EasyXdm.fetch(scope, '/wsapi/rest/authentication/my/employeeId');
-
-        return scope.employeeId.then(function(employeeId){
-          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=income&employeeId=' + employeeId);
+        var incomePromise = EmployeeIds.then(function(employeeIds){
+          return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=income&employeeIds=' + combineEmployeeIdsIntoString(employeeIds));
         });
+
+        incomePromise.then(null, function(error){
+          alert("Sorry, there was an error and your Income data could not be retrieved.");
+        });
+
+        return incomePromise;
       }
     }
   }])
-  };
+  }
+
+  function combineEmployeeIdsIntoString(employeeIds) {
+    //TODO: there is probably a nicer way to do this
+    return _.reduce(
+      employeeIds,
+      function (memo, employeeId) {
+        return memo === 'start-token' ? employeeId : memo + "," + employeeId;
+      },
+      'start-token');
+  }
+
 })();
