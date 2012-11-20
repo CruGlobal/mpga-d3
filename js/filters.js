@@ -91,13 +91,12 @@
         else
           return _.chain(monthData).
             map(function (monthDatum) {
-                  var amounts = _.chain(monthDatum.transactionSummaries).
+                  return _.chain(monthDatum.transactionSummaries).
                       filter(function (transactionSummary) {
                           return transactionSummary.description === description;
                       }).
                       pluck('amount').
                       value();
-                  return amounts;
             }).
             flatten().
             reduce(function (a, b) {

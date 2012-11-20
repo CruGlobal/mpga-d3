@@ -175,8 +175,7 @@
             }
 
             var months = _.map(_.range(12), function (monthsToAdd) {
-              var month = moment().subtract('years', 1).add('months', monthsToAdd);
-              return month;
+                return moment().subtract('years', 1).add('months', monthsToAdd);
             });
 
             var transformAndSum = function(incomeOrExpenses, sign) {
