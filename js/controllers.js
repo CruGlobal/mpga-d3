@@ -43,11 +43,11 @@
           values : [
             {
               label:'Upper 50% Givers',
-              value:_.size(_.filter(partners, upperHalf))
+              value:_.size(_.filter(scope.partners, upperHalf))
             },
             {
               label:'Lower 50% Givers',
-              value:_.size(_.reject(partners, upperHalf))
+              value:_.size(_.reject(scope.partners, upperHalf))
             }
           ]
         }
