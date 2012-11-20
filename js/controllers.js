@@ -291,16 +291,16 @@
 
 
         //last table is `category in (benefits, salary, contributions-assessment, additional-salary)`
-      var beneSalCont = ['benefits', 'salary', 'contributions-assessment', 'additional-salary'];
-      var beneSalContPredicate = function (transactionSummary) {
-        return _.contains(beneSalCont, transactionSummary.category);
+      var benefitsSalaryContributions = ['benefits', 'salary', 'contributions-assessment', 'additional-salary'];
+      var benefitsSalaryContributionsPredicate = function (transactionSummary) {
+        return _.contains(benefitsSalaryContributions, transactionSummary.category);
       };
-      scope.benefitsDescriptions = pullOutMatchingDescriptions(expenses, beneSalContPredicate);
+      scope.benefitsDescriptions = pullOutMatchingDescriptions(expenses, benefitsSalaryContributionsPredicate);
 
       //misc has everything else
       var miscPredicate = function (transactionSummary) {
         return !ministryPredicate(transactionSummary) &&
-          !beneSalContPredicate(transactionSummary) &&
+          !benefitsSalaryContributionsPredicate(transactionSummary) &&
           !healthcareReimbursementPredicate(transactionSummary);
       };
       scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
