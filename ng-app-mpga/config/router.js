@@ -6,6 +6,7 @@
         'mpga.current-partners',
         'mpga.lost-partners',
         'mpga.statistical-analysis',
+        'mpga.giving-range',
         'mpgaControllers',
         'mpgaFilters',
         'mpgaServices',
@@ -28,7 +29,11 @@
         templateUrl:'ng-app-mpga/modules/statistical-analysis/templates/statistical-analysis.html',
         controller:'StatisticalAnalysisController'
       })
-      .when('/giving-range', { templateUrl:'ng-app-mpga/templates/giving-range.html', controller:'GivingRangeController'})
+      .when('/giving-range',
+      {
+        templateUrl:'ng-app-mpga/modules/giving-range/templates/giving-range.html',
+        controller:'GivingRangeController'
+      })
       .when('/giving-frequency', { templateUrl:'ng-app-mpga/templates/giving-frequency.html', controller:'GivingFrequencyController'})
       .when('/income-expenses', { templateUrl:'ng-app-mpga/templates/income-expenses.html', controller:'IncomeExpensesController'})
       .otherwise({redirectTo:'/current-partners'});
