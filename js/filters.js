@@ -49,29 +49,8 @@
         return _.size(partners) / total * 100;
       };
     }).
-    filter('rangeHighPass',function () {
-      // Careful, this function is a high PASS.
-      // All partners with HIGHER than range.low * 12 yearly giving are allowed through
-      return function (partners, range) {
-        if (_.isArray(partners))
-          return _.filter(partners, function (partner) {
-            return partner['twelveMonthTotalAmount'] > range.low * 12;
-          });
-        else
-          return [];
-      };
-    }).
-    filter('rangeBandPass',function () {
-      return function (partners, range) {
-        if (_.isArray(partners))
-          return _.filter(partners, function (partner) {
-            return partner['twelveMonthTotalAmount'] < range.high * 12
-              && partner['twelveMonthTotalAmount'] > range.low * 12;
-          });
-        else
-          return [];
-      };
-    }).
+
+
     filter('matchDescriptionAndSum', function () {
       return function (monthData, description) {
         // the filter before this one is passing an array of months, like the income/expense data
