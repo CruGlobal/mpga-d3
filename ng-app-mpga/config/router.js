@@ -8,6 +8,7 @@
         'mpga.statistical-analysis',
         'mpga.giving-range',
         'mpga.giving-frequency',
+        'mpga.income-expenses',
         'mpgaControllers',
         'mpgaFilters',
         'mpgaServices',
@@ -40,7 +41,11 @@
         templateUrl:'ng-app-mpga/modules/giving-frequency/templates/giving-frequency.html',
         controller:'GivingFrequencyController'
       })
-      .when('/income-expenses', { templateUrl:'ng-app-mpga/templates/income-expenses.html', controller:'IncomeExpensesController'})
+      .when('/income-expenses',
+      {
+        templateUrl:'ng-app-mpga/modules/income-expenses/templates/income-expenses.html',
+        controller:'IncomeExpensesController'
+      })
       .otherwise({redirectTo:'/current-partners'});
   }])
 })();
