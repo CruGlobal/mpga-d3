@@ -9,7 +9,6 @@
         'mpga.giving-range',
         'mpga.giving-frequency',
         'mpga.income-expenses',
-        'mpgaControllers',
         'mpgaFilters',
         'mpgaServices',
         'mpgaDirectives'
