@@ -3,22 +3,6 @@
 /* Controllers */
 (function () {
   angular.module('mpgaControllers', []).
-    controller('LostPartnersController', ['$scope', 'Partners', function (scope, Partners) {
-    scope.sortOn = function (column) {
-      if (scope.sortingColumn === column) {
-        scope.reverse = !scope.reverse;
-      } else
-        scope.reverse = false;
-      scope.arrowDirection = (scope.reverse ? 'descending' : 'ascending'); //CSS class names
-      scope.sortingColumn = column;
-      scope.active = {};
-      scope.active[column] = 'sorting'; //CSS class name
-    };
-
-    Partners.fetch(scope).then(function (partners) {
-      scope.lostPartners = _.filter(partners, scope.isLostPartner);
-    });
-  }]).
     controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
     var amount = filter('amount');
     scope.singleGivers = [];
