@@ -3,57 +3,6 @@
 /* Controllers */
 (function () {
   angular.module('mpgaControllers', []).
-    controller('CurrentPartnersController', ['$scope', 'Partners', function (scope, Partners) {
-    scope.sortOn = function (column) {
-      if (scope.sortingColumn === column) {
-        scope.reverse = !scope.reverse;
-      } else
-        scope.reverse = false;
-      scope.arrowDirection = (scope.reverse ? 'descending' : 'ascending'); //CSS class names
-      scope.sortingColumn = column;
-      scope.active = {};
-      scope.active[column] = 'sorting'; //CSS class name
-    };
-
-    Partners.fetch(scope).then(function (partners) {
-      scope.partners = _.reject(partners, scope.isLostPartner);
-
-      _.mixin({
-        median : function(sortedArrayOfNumbers) {
-          return d3.median(sortedArrayOfNumbers);
-        }
-      });
-
-      scope.medianYearlyAmount = _.chain(scope.partners)
-        .pluck('twelveMonthTotalAmount')
-        .map(function(stringOfAmount){
-          return parseFloat(stringOfAmount);
-        })
-        .sortBy(_.identity)
-        .median()
-        .value();
-
-      var upperHalf = function(partner) {
-        return parseFloat(partner.twelveMonthTotalAmount) > scope.medianYearlyAmount;
-      };
-
-      scope.partnersData = [
-        {
-          key : 'Support Distribution',
-          values : [
-            {
-              label:'Upper 50% Givers',
-              value:_.size(_.filter(scope.partners, upperHalf))
-            },
-            {
-              label:'Lower 50% Givers',
-              value:_.size(_.reject(scope.partners, upperHalf))
-            }
-          ]
-        }
-      ];
-    });
-  }]).
     controller('LostPartnersController', ['$scope', 'Partners', function (scope, Partners) {
     scope.sortOn = function (column) {
       if (scope.sortingColumn === column) {
