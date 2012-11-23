@@ -1,0 +1,26 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <th data-ng-repeat="month in months" data-ng-class="month.styleColor">{{month.shortName}}</th>
+        <th>Average</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="description in inputDescriptions">
+        <td>{{description}}</td>
+        <td data-ng-repeat="month in months">
+            {{ inputData | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
+        </td>
+        <td>{{ inputData  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
+        <td>{{ inputData  | matchDescriptionAndSum:description | number:0 }}</td>
+    </tr>
+    </tbody>
+</table>

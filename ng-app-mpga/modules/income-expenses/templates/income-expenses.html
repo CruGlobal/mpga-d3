@@ -1,149 +1,25 @@
 <h2>Income</h2>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>&nbsp;</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.styleColor">{{month.shortName}}</th>
-    <th>Average</th>
-    <th>Total</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-ng-repeat="description in incomeDescriptions">
-    <td>{{description}}</td>
-    <td data-ng-repeat="month in months">
-    {{ income | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
-    </td>
-    <td>{{ income  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ income  | matchDescriptionAndSum:description | number:0 }}</td>
-  </tr>
-  </tbody>
-</table>
+<table data-income-expense-table data-input-data="income" data-input-descriptions="incomeDescriptions" data-months="months" class="table table-striped"></table>
 
 <br>
 
 <h2>Ministry Expenses</h2>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>&nbsp;</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.styleColor">{{month.shortName}}</th>
-    <th>Average</th>
-    <th>Total</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-ng-repeat="description in ministryDescriptions">
-    <td>{{description}}</td>
-    <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
-    </td>
-    <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
-  </tr>
-  </tbody>
-</table>
+<table data-income-expense-table data-input-data="expenses" data-input-descriptions="ministryDescriptions" data-months="months" class="table table-striped"></table>
 
 <br>
+
 <h2>Healthcare Expenses</h2>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>&nbsp;</th>
-        <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-    </tr>
-    <tr>
-        <th>Description</th>
-        <th data-ng-repeat="month in months" data-ng-class="month.styleColor">{{month.shortName}}</th>
-        <th>Average</th>
-        <th>Total</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr data-ng-repeat="description in healthcareDescriptions">
-        <td>{{description}}</td>
-        <td data-ng-repeat="month in months">
-            {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
-        </td>
-        <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-        <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
-    </tr>
-    </tbody>
-</table>
+<table data-income-expense-table data-input-data="expenses" data-input-descriptions="healthcareDescriptions" data-months="months" class="table table-striped"></table>
 
 <br>
 
 <h2>Misc</h2>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>&nbsp;</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.styleColor">{{month.shortName}}</th>
-    <th>Average</th>
-    <th>Total</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-ng-repeat="description in miscDescriptions">
-    <td>{{description}}</td>
-    <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
-    </td>
-    <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ expenses  | matchDescriptionAndSum:description | number:0 }}</td>
-  </tr>
-  </tbody>
-</table>
+<table data-income-expense-table data-input-data="expenses" data-input-descriptions="miscDescriptions" data-months="months" class="table table-striped"></table>
 
 <br>
 
 <h2>Assessment, Benefits, Salary</h2>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>&nbsp;</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.style">{{month.year}}</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <th data-ng-repeat="month in months" data-ng-class="month.styleColor">{{month.shortName}}</th>
-    <th>Average</th>
-    <th>Total</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-ng-repeat="description in benefitsDescriptions">
-    <td>{{description}}</td>
-    <td data-ng-repeat="month in months">
-      {{ expenses | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0}}
-    </td>
-    <td>{{ expenses  | matchDescriptionAndSum:description | divideByTwelve | number:0 }}</td>
-    <td>{{ expenses  | matchDescriptionAndSum:description | number:0}}</td>
-  </tr>
-  </tbody>
-</table>
+<table data-income-expense-table data-input-data="expenses" data-input-descriptions="benefitsDescriptions" data-months="months" class="table table-striped"></table>
 
 <br>
 
