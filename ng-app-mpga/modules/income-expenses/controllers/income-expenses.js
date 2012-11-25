@@ -39,6 +39,9 @@
       };
 
       var sumUpMonthData = function(monthData, predicate) {
+        if(_.isUndefined(predicate))
+          predicate = _.identity;
+
         return _.chain(monthData).
           map(function (monthDatum) {
             return _.chain(monthDatum.transactionSummaries).
@@ -63,7 +66,7 @@
         var cont = 'Contributions';
         scope.incomeDescriptions = _.union([cont], _.without(allIncomeDescriptions, cont));
 
-        scope.totalIncome = sumUpMonthData(income, _.identity);
+        scope.totalIncome = sumUpMonthData(income);
       });
 
       scope.expenses = [];
@@ -100,7 +103,7 @@
         };
         scope.miscDescriptions = pullOutMatchingDescriptions(expenses, miscPredicate);
 
-        scope.totalExpenses = sumUpMonthData(expenses, _.identity);
+        scope.totalExpenses = sumUpMonthData(expenses);
 
         scope.expensesPieData = [
           {
