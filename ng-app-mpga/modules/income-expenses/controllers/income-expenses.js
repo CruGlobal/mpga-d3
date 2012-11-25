@@ -8,7 +8,7 @@
 
         // Sorry, this is a bit weird.
         // Display the year only if it's the first column in the expenses table
-        //   (the first month of last year that we are displaying)
+        //   (the first month of previous year that we are displaying)
         // OR
         // January of the current year
         var displayYear = monthsToAdd === 0 || month.format('M') === '1';
@@ -72,27 +72,27 @@
       Expenses.fetch(scope).then(function (expenses) {
         scope.expenses = expenses;
 
-        //ministry is category === ministry-reimbursement
+        //Ministry Expenses is category === ministry-reimbursement
         var ministryPredicate = function (transactionSummary) {
           return transactionSummary.category === 'ministry-reimbursement';
         };
         scope.ministryDescriptions = pullOutMatchingDescriptions(expenses, ministryPredicate);
 
-        //ministry is category === healthcare-reimbursement
+        //Healthcare Expenses is category === healthcare-reimbursement
         var healthcareReimbursementPredicate = function (transactionSummary) {
           return transactionSummary.category === 'healthcare-reimbursement';
         };
         scope.healthcareDescriptions = pullOutMatchingDescriptions(expenses, healthcareReimbursementPredicate);
 
 
-        //last table is `category in (benefits, salary, contributions-assessment, additional-salary)`
+        //Assessment, Benefits, Salary is `category in (benefits, salary, contributions-assessment, additional-salary)`
         var benefitsSalaryContributions = ['benefits', 'salary', 'contributions-assessment', 'additional-salary'];
         var benefitsSalaryContributionsPredicate = function (transactionSummary) {
           return _.contains(benefitsSalaryContributions, transactionSummary.category);
         };
         scope.benefitsDescriptions = pullOutMatchingDescriptions(expenses, benefitsSalaryContributionsPredicate);
 
-        //misc has everything else
+        //Misc has everything else
         var miscPredicate = function (transactionSummary) {
           return !ministryPredicate(transactionSummary) &&
             !benefitsSalaryContributionsPredicate(transactionSummary) &&
