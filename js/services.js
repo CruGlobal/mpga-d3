@@ -281,6 +281,7 @@
 
   function combineEmployeeIdsIntoString(employeeIds) {
     //TODO: there is probably a nicer way to do this
+    // yes there is, array.join(separator)
     return _.reduce(
       employeeIds,
       function (memo, employeeId) {
