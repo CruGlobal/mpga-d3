@@ -29,22 +29,24 @@
        * The rest of this callback supports the 50/50 pie chart at the bottom of the page.
        */
       _.mixin({
-        median : function(sortedArrayOfNumbers) {
-          return d3.median(sortedArrayOfNumbers);
+        average : function(arrayOfNumbers) {
+          if(_.isArray(arrayOfNumbers) && arrayOfNumbers.length > 0)
+            return d3.sum(arrayOfNumbers) / arrayOfNumbers.length;
+          else
+            return 0;
         }
       });
 
-      scope.medianYearlyAmount = _.chain(scope.partners)
+      scope.averageYearlyAmount = _.chain(scope.partners)
         .pluck('twelveMonthTotalAmount')
         .map(function(stringOfAmount){
           return parseFloat(stringOfAmount);
         })
-        .sortBy(_.identity)
-        .median()
+        .average()
         .value();
 
       var upperHalf = function(partner) {
-        return parseFloat(partner.twelveMonthTotalAmount) > scope.medianYearlyAmount;
+        return parseFloat(partner.twelveMonthTotalAmount) > scope.averageYearlyAmount;
       };
 
       scope.partnersData = [
