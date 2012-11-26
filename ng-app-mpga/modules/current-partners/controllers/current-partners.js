@@ -12,7 +12,7 @@
         scope.reverse = !scope.reverse;
       } else
         scope.reverse = false;
-      scope.arrowDirection = (scope.reverse ? 'descending' : 'ascending'); //CSS class names
+      scope.arrowDirection = (scope.reverse ? 'ascending' : 'descending'); //CSS class names
       scope.sortingColumn = column;
       scope.active = {};
       scope.active[column] = 'sorting'; //CSS class name
@@ -21,7 +21,7 @@
     Partners.fetch(scope).then(function (partners) {
       /**
        * Partners contains donors who have given in the past 12 months.
-       * @type []
+       * @type Array
        */
       scope.partners = _.reject(partners, scope.isLostPartner);
 

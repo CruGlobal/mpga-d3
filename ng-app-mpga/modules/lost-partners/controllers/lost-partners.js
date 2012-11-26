@@ -8,7 +8,7 @@
         scope.reverse = !scope.reverse;
       } else
         scope.reverse = false;
-      scope.arrowDirection = (scope.reverse ? 'descending' : 'ascending'); //CSS class names
+      scope.arrowDirection = (scope.reverse ? 'ascending' : 'descending'); //CSS class names
       scope.sortingColumn = column;
       scope.active = {};
       scope.active[column] = 'sorting'; //CSS class name
