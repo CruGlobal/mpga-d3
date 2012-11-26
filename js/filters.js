@@ -21,11 +21,7 @@
         return filter('amount')(partners) / 12;
       };
     }]).
-    filter('monthlyAmountPerPartner', ['$filter', function (filter) {
-      return function (partners) {
-        return filter('monthlyAmount')(partners) / _.size(partners);
-      };
-    }]).
+
     filter('size',function () {
       return function (arr) {
         return _.size(arr);
