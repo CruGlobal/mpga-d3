@@ -2,7 +2,7 @@
 
 /* Filters */
 (function () {
-  angular.module('mpgaFilters', []).
+  angular.module('mpga.filters', []).
     filter('amount',function () {
       return function (partners) {
         return _.chain(partners).
@@ -21,7 +21,6 @@
         return filter('amount')(partners) / 12;
       };
     }]).
-
     filter('size',function () {
       return function (arr) {
         return _.size(arr);
