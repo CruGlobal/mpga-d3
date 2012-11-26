@@ -3,7 +3,7 @@
 (function () {
   var mockServiceData = true;
 
-  var mpgaServicesModule = angular.module('mpgaServices', ['ngResource']);
+  var mpgaServicesModule = angular.module('mpga.services', ['ngResource']);
 
   if (mockServiceData) {
     mpgaServicesModule

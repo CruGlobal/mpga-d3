@@ -9,8 +9,8 @@
         'mpga.giving-range',
         'mpga.giving-frequency',
         'mpga.income-expenses',
+        'mpga.services',
         'mpgaFilters',
-        'mpgaServices',
         'mpgaDirectives'
       ])
     .config(['$routeProvider', function ($routeProvider) {
