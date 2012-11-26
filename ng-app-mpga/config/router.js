@@ -11,7 +11,7 @@
         'mpga.income-expenses',
         'mpga.services',
         'mpga.filters',
-        'mpgaDirectives'
+        'mpga.directives'
       ])
     .config(['$routeProvider', function ($routeProvider) {
     $routeProvider

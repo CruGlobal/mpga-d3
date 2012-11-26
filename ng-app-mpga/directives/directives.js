@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  angular.module('mpgaDirectives', []).
+  angular.module('mpga.directives', []).
     directive('nvPiechart',function () {
       return {
         scope:{
