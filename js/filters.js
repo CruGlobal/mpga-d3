@@ -3,14 +3,6 @@
 /* Filters */
 (function () {
   angular.module('mpgaFilters', []).
-    filter('divideByTwelve',function () {
-      return function (input) {
-        if (_.isNumber(input))
-          return input / 12;
-        else
-          return input;
-      };
-    }).
     filter('amount',function () {
       return function (partners) {
         return _.chain(partners).
