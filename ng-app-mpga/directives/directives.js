@@ -1,6 +1,5 @@
 'use strict';
 
-/* Directives */
 (function () {
   angular.module('mpgaDirectives', []).
     directive('nvPiechart',function () {
