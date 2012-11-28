@@ -8,7 +8,7 @@
       return function (partners, range) {
         if (_.isArray(partners))
           return _.filter(partners, function (partner) {
-            return partner['twelveMonthTotalAmount'] > range.low * 12;
+            return partner['twelveMonthTotalAmount'] >= range.low * 12;
           });
         else
           return [];
