@@ -28,10 +28,10 @@
         <td>Total</td>
 
         <td data-ng-repeat="month in months">
-            {{ inputData | filter:{month:month.yearMonthKey} | transactionSummaries | sum:'amount' | number:0 }}
+            {{ inputData | filter:{month:month.yearMonthKey} | transactionSummaries | matchAnyDescription:inputDescriptions | sum:'amount' | number:0 }}
         </td>
-        <td>{{ inputData | transactionSummaries | sum:'amount' | divideByTwelve | number:0 }}</td>
-        <td>{{ inputData | transactionSummaries | sum:'amount' | number:0 }}</td>
+        <td>{{ inputData | transactionSummaries | matchAnyDescription:inputDescriptions | sum:'amount' | divideByTwelve | number:0 }}</td>
+        <td>{{ inputData | transactionSummaries | matchAnyDescription:inputDescriptions | sum:'amount' | number:0 }}</td>
     </tr>
     </tfoot>
 </table>
