@@ -60,12 +60,12 @@
             key : 'Repeat Giving Distribution',
             values : [
               {
-                label:'Multiple Givers',
-                value:_.size(scope.multipleGivers)
+                label: 'Multiple Givers',
+                value: scope.multipleGiversTotalAmount
               },
               {
-                label:'Single Givers',
-                value:_.size(scope.singleGivers)
+                label: 'Single Givers',
+                value: scope.singleGiversTotalAmount
               }
             ]
           }
