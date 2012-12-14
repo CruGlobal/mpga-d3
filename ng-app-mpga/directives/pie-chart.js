@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  angular.module('mpga.income-expenses')
-    .directive('expensesPieChart',function () {
+  angular.module('mpga')
+    .directive('pieChart',function () {
       return {
         scope:{
           input:'=',
