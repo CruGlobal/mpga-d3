@@ -10,7 +10,7 @@
           inputData:'=',
           months:'='
         },
-        templateUrl:'ng-app-mpga/modules/income-expenses/directives/income-expense-table/templates/table.html'
+        templateUrl:'js/ng-app-mpga/modules/income-expenses/directives/income-expense-table/templates/table.html'
       }
     })
 })();

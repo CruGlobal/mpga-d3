@@ -17,32 +17,32 @@
     $routeProvider
       .when('/current-partners',
       {
-        templateUrl:'ng-app-mpga/modules/current-partners/templates/current-partners.html',
+        templateUrl:'js/ng-app-mpga/modules/current-partners/templates/current-partners.html',
         controller:'CurrentPartnersController'
       })
       .when('/lost-partners',
       {
-        templateUrl:'ng-app-mpga/modules/lost-partners/templates/lost-partners.html',
+        templateUrl:'js/ng-app-mpga/modules/lost-partners/templates/lost-partners.html',
         controller:'LostPartnersController'
       })
       .when('/statistical-analysis',
       {
-        templateUrl:'ng-app-mpga/modules/statistical-analysis/templates/statistical-analysis.html',
+        templateUrl:'js/ng-app-mpga/modules/statistical-analysis/templates/statistical-analysis.html',
         controller:'StatisticalAnalysisController'
       })
       .when('/giving-range',
       {
-        templateUrl:'ng-app-mpga/modules/giving-range/templates/giving-range.html',
+        templateUrl:'js/ng-app-mpga/modules/giving-range/templates/giving-range.html',
         controller:'GivingRangeController'
       })
       .when('/giving-frequency',
       {
-        templateUrl:'ng-app-mpga/modules/giving-frequency/templates/giving-frequency.html',
+        templateUrl:'js/ng-app-mpga/modules/giving-frequency/templates/giving-frequency.html',
         controller:'GivingFrequencyController'
       })
       .when('/income-expenses',
       {
-        templateUrl:'ng-app-mpga/modules/income-expenses/templates/income-expenses.html',
+        templateUrl:'js/ng-app-mpga/modules/income-expenses/templates/income-expenses.html',
         controller:'IncomeExpensesController'
       })
       .otherwise({redirectTo:'/current-partners'});
