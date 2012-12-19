@@ -113,7 +113,7 @@
         return {
           fetch: function (scope) {
             var incomePromise = EmployeeIds.then(function (employeeIds) {
-              return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?firstMonth=2011-10&transactionType=income&employeeIds=' + employeeIds.join(','));
+              return EasyXdm.fetch(scope, '/wsapi/rest/staffAccount/transactionSummariesByMonth?transactionType=income&employeeIds=' + employeeIds.join(','));
             });
 
             incomePromise.then(null, function (error) {
