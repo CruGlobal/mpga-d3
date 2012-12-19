@@ -286,19 +286,19 @@ table.table tr.last_column td {
     background-color: #1eec39; color: #d12b2b;
 }
 table.table th[data-ng-click] {
-    background: url(/img/sorting-arrows.gif) no-repeat center right;
+    background: url('../img/sorting-arrows.gif') no-repeat center right;
 	padding-right: 20px;
 	cursor: pointer;
 }
 
 table.table tr.descending th[data-ng-click].sorting {
-    background: url(/img/sorting-arrows-desc.gif) no-repeat center right;
+    background: url('../img/sorting-arrows-desc.gif') no-repeat center right;
 	padding-right: 20px;
 	cursor: pointer;
 }
 
 table.table tr.ascending th[data-ng-click].sorting {
-    background: url(/img/sorting-arrows-asc.gif) no-repeat center right;
+    background: url('../img/sorting-arrows-asc.gif') no-repeat center right;
 	padding-right: 20px;
 	cursor: pointer;
 }
