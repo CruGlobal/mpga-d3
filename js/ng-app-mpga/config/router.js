@@ -5,6 +5,7 @@
       [
         'mpga.current-partners',
         'mpga.lost-partners',
+        'mpga.top-fifty',
         'mpga.statistical-analysis',
         'mpga.giving-range',
         'mpga.giving-frequency',
@@ -24,6 +25,11 @@
       {
         templateUrl:'js/ng-app-mpga/modules/lost-partners/templates/lost-partners.html',
         controller:'LostPartnersController'
+      })
+      .when('/top-fifty',
+      {
+        templateUrl:'js/ng-app-mpga/modules/top-fifty/templates/top-fifty.html',
+        controller:'TopFiftyController'
       })
       .when('/statistical-analysis',
       {
