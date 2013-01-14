@@ -17,8 +17,15 @@
   <tr data-ng-repeat="partner in partners | orderBy:sortingColumn:reverse">
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
-    <td>{{partner.twelveMonthTotalAmount | currency}}</td>
-    <td>{{partner.twelveMonthTotalCount | number:0}}</td>
+    <td>
+        {{partner.twelveMonthTotalAmount | currency}}
+    </td>
+    <td>
+        <span data-ng-show="partner.nonCashtwelveMonthTotalAmount > 0">
+            <i class="icon-star" data-bs-tooltip="'At least one Non Cash gift'" data-placement="left"></i>
+        </span>
+        {{partner.twelveMonthTotalCount | number:0}}
+    </td>
     <td>{{partner.twelveMonthTotalAmount / 12 | currency}}</td>
     <td>{{partner.firstTransactionDate | moment:'MM/DD/YY'}}</td>
     <td>{{partner.lastTransactionDate | moment:'MM/DD/YY'}}</td>
