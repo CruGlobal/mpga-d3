@@ -21,8 +21,8 @@
         {{partner.twelveMonthTotalAmount | currency}}
     </td>
     <td>
-        <span data-ng-show="partner.nonCashtwelveMonthTotalAmount > 0">
-            <i class="icon-star" data-bs-tooltip="'At least one Non Cash gift'" data-placement="left"></i>
+        <span class="align-star" data-ng-show="partner.nonCashtwelveMonthTotalAmount > 0">
+            <i class="icon-star" data-bs-tooltip="'At least one Non Cash gift'" data-placement="left"><div class="tint"></div></i>
         </span>
         {{partner.twelveMonthTotalCount | number:0}}
     </td>
