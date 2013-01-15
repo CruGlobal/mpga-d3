@@ -3,6 +3,7 @@
 <table class="table table-striped table-hover">
   <thead>
   <tr data-ng-class="arrowDirection">
+    <th>Non Cash</th>
     <th> Acct. Nbr.</th>
     <th data-ng-class="active.accountName" data-ng-click="sortOn('accountName')" class="sortable-header">Acct. Name</th>
     <th data-ng-class="active.twelveMonthTotalAmount" data-ng-click="sortOn('twelveMonthTotalAmount')" class="sortable-header">12 Mo. Giving Tot.</th>
@@ -15,15 +16,19 @@
   </thead>
   <tbody>
   <tr data-ng-repeat="partner in partners | orderBy:sortingColumn:reverse">
+    <td>
+        <span
+          data-ng-show="partner.nonCashtwelveMonthTotalAmount > 0"
+          data-bs-tooltip="'Y in this column indicates that all or some of the gift comes from non-cash gifts. The amount indicated has no relationship to the amount that may be reported by the donor.'"
+          data-placement="right">Y
+        </span>
+    </td>
     <td>{{partner.accountNumber}}</td>
     <td>{{partner.accountName}}</td>
     <td>
         {{partner.twelveMonthTotalAmount | currency}}
     </td>
     <td>
-        <span class="align-star" data-ng-show="partner.nonCashtwelveMonthTotalAmount > 0">
-            <i class="icon-star" data-bs-tooltip="'At least one Non Cash gift'" data-placement="left"><div class="tint"></div></i>
-        </span>
         {{partner.twelveMonthTotalCount | number:0}}
     </td>
     <td>{{partner.twelveMonthTotalAmount / 12 | currency}}</td>
