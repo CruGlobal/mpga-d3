@@ -1,5 +1,5 @@
 'use strict';
 
 (function () {
-  angular.module('mpga.current-partners', []);
+  angular.module('mpga.current-partners', ['$strap.directives']);
 })();

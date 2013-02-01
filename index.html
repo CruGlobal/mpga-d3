@@ -36,11 +36,11 @@
   </script>
 </head>
 <body data-ng-app="mpga" id="mpga">
-  <!-- Prompt IE 7 users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  <!--[if lt IE 8]>
+  <!-- Prompt IE 8-and-below users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 9]>
       <p class=chromeframe>Your browser is <em>outdated!</em>
       <a href="http://browsehappy.com/">Upgrade to a different browser</a> or
-      <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
+      <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to fully experience this site.</p>
   <![endif]-->
 
   	<div id="mpga-heading" class="clearfix">
@@ -54,6 +54,7 @@
       <ul class="nav">
         <li data-ng-class="navClass('current-partners')"><a href="#/current-partners">Current Partners</a></li>
         <li data-ng-class="navClass('lost-partners')"><a href="#/lost-partners">Lost Partners</a></li>
+        <li data-ng-class="navClass('top-fifty')"><a href="#/top-fifty">Top 50%</a></li>
         <li data-ng-class="navClass('statistical-analysis')"><a href="#/statistical-analysis">Statistical Analysis</a></li>
         <li data-ng-class="navClass('giving-range')"><a href="#/giving-range">Giving Range Analysis</a></li>
         <li data-ng-class="navClass('giving-frequency')"><a href="#/giving-frequency">Giving Frequency Analysis</a></li>
@@ -69,19 +70,19 @@
 	    easyXDM.DomHelper.requiresJSON("//cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.min.js");
   </script>
 
-  <!--[if IE 8]>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <![endif]-->
 
   <!--[if gt IE 8]><!-->
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
   <script src="js/vendor/nv.d3.js"></script>
   <!--<![endif]-->
 
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.3/angular.min.js"></script>
   <script src="js/vendor/angular-resource.min.js"></script>
+  <script src="js/vendor/angular-strap.min.js"></script>
 
 <!-- scripts concatenated and minified via build script -->
   <script src="js/plugins.js"></script>
@@ -99,6 +100,9 @@
 
   <script src="js/ng-app-mpga/modules/lost-partners/lost-partners.js"></script>
   <script src="js/ng-app-mpga/modules/lost-partners/controllers/lost-partners.js"></script>
+
+  <script src="js/ng-app-mpga/modules/top-fifty/top-fifty.js"></script>
+  <script src="js/ng-app-mpga/modules/top-fifty/controllers/top-fifty.js"></script>
 
   <script src="js/ng-app-mpga/modules/statistical-analysis/statistical-analysis.js"></script>
   <script src="js/ng-app-mpga/modules/statistical-analysis/controllers/statistical-analysis.js"></script>
