@@ -12,9 +12,10 @@
       }
 
 
-      var schemeHostAndPort = 'http://localhost:8680';
+//      var schemeHostAndPort = 'http://localhost:8680';
 //      var schemeHostAndPort = 'http://hart-a321.net.ccci.org:9980';
 //      var schemeHostAndPort = 'https://wsapistaging.ccci.org';
+      var schemeHostAndPort = 'https://wsapi.cru.org';
 
       var xhr;
 
