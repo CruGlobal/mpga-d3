@@ -113,7 +113,12 @@
                 sendRequestToUrl(false);
               }
               else {
-                alert("It appears you are not logged in to Relay.  Attempting to reload the page...");
+                alert(
+                    "We're sorry -- it appears you are not logged in.  This could be because your Relay session was" +
+                        " ended, or because your browser is not keeping cookies the way we need it to.  When you" +
+                        " click 'Ok', this page will attempt to re-verify your Relay login, which may fix the issue.  If" +
+                        " you get this message again, however, please switch to Chrome as your browser for this report.  If" +
+                        " that doesn't resolve the problem, please contact itghelp@ccci.org.  Again, sorry for the trouble!");
                 deferred.reject("User is not logged in");
                 window.top.location.reload();
               }
