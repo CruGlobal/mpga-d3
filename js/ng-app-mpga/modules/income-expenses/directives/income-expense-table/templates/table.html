@@ -15,7 +15,7 @@
     </thead>
     <tbody>
     <tr data-ng-repeat="description in inputDescriptions">
-        <td>{{description}}</td>
+        <td data-description="{{description}}">{{description}}</td>
         <td data-ng-repeat="month in months">
             {{ inputData | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
         </td>
