@@ -394,6 +394,15 @@ p span.badge {
     background: lightPink;
 }
 
+
+/*
+Styling to restrict the size of the description table in income & expenses
+*/
+.description-tooltip {
+	width: 200px !important; overflow: hidden; text-overflow: ellipsis;
+}
+
+
 /* I added each of these explicitly to help with styling later, because they need some styling! */
 #giving-range,
 #giving-frequency,
