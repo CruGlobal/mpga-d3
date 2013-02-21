@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped" data-months="months">
     <thead>
     <tr>
         <th>&nbsp;</th>
@@ -15,7 +15,13 @@
     </thead>
     <tbody>
     <tr data-ng-repeat="description in inputDescriptions">
-        <td><div class="description-tooltip"  data-bs-tooltip="'{{description}}'">{{description}}</div></td>
+        <td>
+            <div class="description-tooltip"
+                  data-bs-tooltip="description"
+                  data-placement="right">
+                {{description}}
+            </div>
+        </td>
         <td data-ng-repeat="month in months">
             {{ inputData | filter:{month:month.yearMonthKey} | matchDescriptionAndSum:description | number:0 }}
         </td>
