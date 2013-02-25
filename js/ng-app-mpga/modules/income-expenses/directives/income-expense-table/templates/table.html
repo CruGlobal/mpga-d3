@@ -17,7 +17,7 @@
     <tr data-ng-repeat="description in inputDescriptions">
         <td>
             <div class="description-tooltip"
-                  data-bs-tooltip="description"
+                  data-bs-tooltip="description | addSpaces"
                   data-placement="right">
                 {{description}}
             </div>
