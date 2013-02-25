@@ -13,7 +13,7 @@
             breakdown(input.substr(halfLength));
         };
 
-        return breakdown(input);
+        return _.map(input.split(" "), breakdown).join(" ");
       };
     })
 })();
