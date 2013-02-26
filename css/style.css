@@ -248,6 +248,9 @@ td { vertical-align: top; }
 		   margin: 0 0 10px 0;
 		   font-size: 22px;
 		   font-weight: 500;
+	   }
+	   ::selection, ::-moz-selection {
+	       background: #A8D1FF;
 	   }	   
    
    /* END OF CRU SPECIFIC STYLING ===== */
