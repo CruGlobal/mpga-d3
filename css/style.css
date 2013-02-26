@@ -252,7 +252,9 @@ td { vertical-align: top; }
    
    /* END OF CRU SPECIFIC STYLING ===== */
    
-        
+body {
+    font-size: .9em;
+}        
 table.table th, table.table td {
 	text-align: right;
 }
