@@ -75,7 +75,7 @@
             return spouseId;
           },
           function (error) {
-            if (error.response && error.response.code == 404) {
+            if (error.response && error.response.status == 404) {
               return null;
             }
             else {
