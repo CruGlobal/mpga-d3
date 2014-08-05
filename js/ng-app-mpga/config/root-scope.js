@@ -2,9 +2,13 @@
 
 (function () {
   angular.module('mpga')
-  .run(['$rootScope', function (rootScope) {
+  .run(['$rootScope', '$filter', function (rootScope, filter) {
     rootScope.isLostPartner = function (partner) {
-      return partner.twelveMonthTotalCount == 0;
+      var oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      var partnerLastTransactionDate = new Date(partner.lastTransactionDate);
+
+      return partnerLastTransactionDate.getTime() <= oneYearAgo.getTime();
     }
   }]);
 })();
