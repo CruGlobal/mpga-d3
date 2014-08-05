@@ -2,7 +2,7 @@
 
 (function () {
   angular.module('mpga')
-  .run(['$rootScope', '$filter', function (rootScope, filter) {
+  .run(['$rootScope', function (rootScope) {
     rootScope.isLostPartner = function (partner) {
       var oneYearAgo = new Date();
       oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
