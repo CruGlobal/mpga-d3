@@ -4,7 +4,13 @@
   angular.module('mpga')
   .run(['$rootScope', function (rootScope) {
     rootScope.isLostPartner = function (partner) {
-      return partner.twelveMonthTotalCount == 0;
+      var oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      oneYearAgo.setDate(1);
+      oneYearAgo.setHours(0, 0, 0, 0);
+      var partnerLastTransactionDate = new Date(partner.lastTransactionDate);
+
+      return partnerLastTransactionDate.getTime() <= oneYearAgo.getTime();
     }
   }]);
 })();
