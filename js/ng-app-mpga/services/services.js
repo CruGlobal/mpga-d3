@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mockServiceData = true;
+  var mockServiceData = false;
 
   var mpgaServicesModule = angular.module('mpga.services', ['ngResource']);
 
