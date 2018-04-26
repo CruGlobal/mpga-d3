@@ -119,7 +119,7 @@
                         " ended, or because your browser is not keeping cookies the way we need it to.  When you" +
                         " click 'Ok', this page will attempt to re-verify your Relay login, which may fix the issue.  If" +
                         " you get this message again, however, please switch to Chrome as your browser for this report.  If" +
-                        " that doesn't resolve the problem, please contact itghelp@ccci.org.  Again, sorry for the trouble!");
+                        " that doesn't resolve the problem, please contact techhelp@cru.org.  Again, sorry for the trouble!");
                 deferred.reject("User is not logged in");
                 window.top.location.reload();
               }
