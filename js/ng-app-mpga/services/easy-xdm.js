@@ -106,8 +106,8 @@
           function handleNotAuthorizedResponse() {
             reloadXhr();
 
-            var loggedInToCas = xhr.request({
-              url: "/wsapi/rest/authentication/loggedInToCas",
+            var loggedInWithCookie = xhr.request({
+              url: "/wsapi/rest/authentication/loggedInWithCookie",
               method: "GET"
             }, function (response) {
               if (response.data === "true") {
@@ -115,9 +115,9 @@
               }
               else {
                 alert(
-                    "We're sorry -- it appears you are not logged in.  This could be because your Relay session was" +
+                    "We're sorry -- it appears you are not logged in.  This could be because your Cru session was" +
                         " ended, or because your browser is not keeping cookies the way we need it to.  When you" +
-                        " click 'Ok', this page will attempt to re-verify your Relay login, which may fix the issue.  If" +
+                        " click 'Ok', this page will attempt to re-verify your login, which may fix the issue.  If" +
                         " you get this message again, however, please switch to Chrome as your browser for this report.  If" +
                         " that doesn't resolve the problem, please contact techhelp@cru.org.  Again, sorry for the trouble!");
                 deferred.reject("User is not logged in");
@@ -126,9 +126,9 @@
             }, function (errorPayload) {
               var message = errorPayload.message;
               var response = errorPayload.data;
-              log("unable to check if logged in to cas: " + message);
+              log("unable to check if logged in: " + message);
               log(response);
-              deferred.reject("Unable to check if logged in to cas; response code " + response.status);
+              deferred.reject("Unable to check if logged in; response code " + response.status);
             });
           }
 
