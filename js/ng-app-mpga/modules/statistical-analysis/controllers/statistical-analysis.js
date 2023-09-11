@@ -2,12 +2,13 @@
 
 (function () {
   angular.module('mpga.statistical-analysis')
-    .controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+    .controller('StatisticalAnalysisController', ['$scope', '$filter', 'Partners', 'Resize', function (scope, filter, Partners, Resize) {
       var amount = filter('amount');
       scope.singleGivers = [];
       scope.multipleGivers = [];
       scope.totalCurrentPartners = [];
       scope.newCurrentLostData = [];
+      Resize.resizeIframe();
 
       Partners.fetch(scope).then(function (partners) {
         var lostPartners = _.filter(partners, scope.isLostPartner);
@@ -70,6 +71,8 @@
             ]
           }
         ];
+
+        Resize.resizeIframe();
       });
     }])
 })();

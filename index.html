@@ -33,9 +33,14 @@
 
   <script language="JavaScript" type="text/javascript">
     document.domain='cru.org';
+
+    function resizeIframe() {
+      const height = document.getElementsByTagName("html")[0].scrollHeight;
+      parent.postMessage(["setHeight", height], "*");
+    }
   </script>
 </head>
-<body data-ng-app="mpga" id="mpga">
+<body data-ng-app="mpga" id="mpga" onload="resizeIframe();">
   <!-- Prompt IE 8-and-below users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if lt IE 9]>
       <p class=chromeframe>Your browser is <em>outdated!</em>

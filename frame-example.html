@@ -45,11 +45,16 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script>
-    var mpgaFrameStretcher = function() {
-        $('#iframe_id').height($('#iframe_id').contents().height());
-        setTimeout(mpgaFrameStretcher, 1000);
+  window.addEventListener('message', function(e) {
+    const iframe = $("#iframe_id");
+    const eventName = e.data[0];
+    const data = e.data[1];
+    switch (eventName) {
+      case 'setHeight':
+        iframe.height(data + 20);
+        break;
     }
-    $('#iframe_id').load(mpgaFrameStretcher);
+  }, false);
 </script>
 
 </body>
