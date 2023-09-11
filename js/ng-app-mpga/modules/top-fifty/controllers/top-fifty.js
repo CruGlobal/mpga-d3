@@ -3,8 +3,9 @@
   'use strict';
 
   angular.module('mpga.top-fifty')
-    .controller('TopFiftyController', ['$scope', 'Partners',
-      function(scope, Partners){
+    .controller('TopFiftyController', ['$scope', 'Partners', 'Resize',
+      function(scope, Partners, Resize) {
+        Resize.resizeIframe();
         Partners.fetch(scope).then(function (partners) {
           /**
            * scope.partners contains donors who have given in the past 12 months.
@@ -65,8 +66,7 @@
             }
           ];
 
-
-
+          Resize.resizeIframe();
         })
       }])
 })();

@@ -2,7 +2,7 @@
 
 (function () {
   angular.module('mpga.income-expenses')
-    .controller('IncomeExpensesController', ['$scope', 'Expenses', 'Income', function (scope, Expenses, Income) {
+    .controller('IncomeExpensesController', ['$scope', 'Expenses', 'Income', 'Resize', function (scope, Expenses, Income, Resize) {
       scope.months = _.map(_.range(12), function (monthsToAdd) {
         var month = moment().subtract('years', 1).add('months', monthsToAdd);
 
@@ -57,6 +57,7 @@
       };
 
       scope.income = [];
+      Resize.resizeIframe();
 
       Income.fetch(scope).then(function (income) {
         scope.income = income;
@@ -67,6 +68,7 @@
         scope.incomeDescriptions = _.union([cont], _.without(allIncomeDescriptions, cont));
 
         scope.totalIncome = sumUpMonthData(income);
+        Resize.resizeIframe();
       });
 
       scope.expenses = [];
@@ -148,6 +150,7 @@
             ]
           }
         ];
+        Resize.resizeIframe();
       });
     }])
 })();

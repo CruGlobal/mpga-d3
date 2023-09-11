@@ -2,7 +2,7 @@
 
 (function () {
   angular.module('mpga.giving-frequency')
-    .controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', function (scope, filter, Partners) {
+    .controller('GivingFrequencyController', ['$scope', '$filter', 'Partners', 'Resize', function (scope, filter, Partners, Resize) {
       scope.ranges = [
         {label:'1 Gift', high:1, low:1},
         {label:'2-4 Gifts', high:4, low:2},
@@ -15,6 +15,7 @@
 
       var amount = filter('amount');
       var frequencyBandPass = filter('frequencyBandPass');
+      Resize.resizeIframe();
       Partners.fetch(scope).then(function (partners) {
         scope.currentPartners = _.reject(partners, scope.isLostPartner);
 
@@ -33,6 +34,7 @@
             })
           }
         ];
+        Resize.resizeIframe();
       });
     }]);
 })();

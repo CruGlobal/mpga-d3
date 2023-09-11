@@ -46,6 +46,14 @@
           }
         }
       }])
+    .service('Resize', ['$document', function ($document) {
+      return {
+        resizeIframe: function () {
+          var height = $document.find("html")[0].scrollHeight;
+          parent.postMessage(["setHeight", height], "*");
+        }
+      }
+    }])
   }
   else {
     mpgaServicesModule
@@ -124,6 +132,14 @@
           }
         }
       }])
+    .service('Resize', ['$document', function ($document) {
+      return {
+        resizeIframe: function () {
+          var height = $document.find("html")[0].scrollHeight;
+          parent.postMessage(["setHeight", height], "*");
+        }
+      }
+    }])
   }
 
 })();
